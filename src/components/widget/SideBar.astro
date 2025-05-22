@@ -13,13 +13,12 @@ const className = Astro.props.class;
 ---
 <div id="sidebar" class:list={[className, "w-full"]}>
     <div class="flex flex-col w-full gap-4 mb-4">
-        <Profile></Profile>
-        <!-- 赞助标 -->
-        <div class="card-base overflow-hidden">
+        <Profile></Profile>        <!-- 赞助标 -->
+        <div class="overflow-hidden flex justify-center">
             <iframe
                 src="https://support.nodeget.com/page/promotion?id=276"
-                style="border:none; border-radius:8px; height:270px; width:100%;
-                transform: scale(1.0); transform-origin: top left;"
+                style="border:none; border-radius:8px; height:270px; width:100%; max-width:280px;
+                transform: scale(1.0); transform-origin: center top;"
             ></iframe>
         </div>
     </div>
