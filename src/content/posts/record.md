@@ -198,6 +198,12 @@ masquerade:
 
 ## Cloudflare 优选域名
 
+- 二叉树树自用：
+  
+  ```
+  fenliu.072103.xyz
+  ```
+
 - [CM大佬](https://blog.cmliussss.com/)：
   
   ```
