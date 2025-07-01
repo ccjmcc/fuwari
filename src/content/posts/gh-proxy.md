@@ -78,7 +78,16 @@ const domain_mappings = {
 
 绑定到你的Worker，随后访问 `gh.abc.com` 就能访问你自己的Github反代了
 
- ---
+
+---
+
+# 完整代码
+
+```js
+
+```
+
+
 
 # 适用于高级玩家：
 
