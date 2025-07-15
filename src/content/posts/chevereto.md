@@ -54,3 +54,11 @@ MYSQL 需要 8.0 以上
 ![](https://sb-r2.afo.im/myblog/img/00c8ab83-d41c-4ca3-a14a-4a36f0f77b67.webp)
 
 如果我连系统设置都进不去？请自行找你的PHP Error Log来分析问题
+
+# 我搭建好的
+
+https://nginx.php.afo.im/upload
+
+登录后查看所有图片：
+
+https://nginx.php.afo.im/explore/images
