@@ -11,6 +11,8 @@ lang: ''
 
 # 正式开始
 
+> 如果你是App，请确保已经使用 matrix.afo.im ，并且点击使用Github登录，无需注册
+
 使用浏览器访问： [You&apos;re invited to talk on Matrix](https://matrix.to/#/#acofork-tech:matrix.afo.im)
 
 点击 Continue
