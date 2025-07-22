@@ -6,11 +6,8 @@ draft: false
 image: https://eo-r2.afo.im/myblog/img/image.png
 lang: ''
 published: 2025-04-04
-tags:
-
-- Netlify
-- Vercel
-  title: Netlify、Vercel反代网站
+tags: [Netlify, Vercel]
+title: Netlify、Vercel反代网站
 
 ---
 
