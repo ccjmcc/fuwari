@@ -22,7 +22,7 @@ TG： [Telegram: Join Group Chat](https://s.afo.im/tg)
 
 ---
 
-Matrix： matrix.to/#/#acofork-tech:matrix.afo.im [详细教程](https://www.afo.im/posts/element/)
+~~Matrix： matrix.to/#/#acofork-tech:matrix.afo.im [详细教程](https://www.afo.im/posts/element/)~~ （后端崩溃）
 
 > 及其不常用，除非你在别的平台让我去看
 
