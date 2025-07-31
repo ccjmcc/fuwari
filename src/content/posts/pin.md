@@ -1,6 +1,6 @@
 ---
 title: "加群向导"
-image: https://pic.2x.nz/?img=h
+image: https://hpic.072103.xyz
 published: 2025-05-24
 pinned: true
 category: '置顶'
