@@ -21,11 +21,3 @@ description: 关于如何联系二叉树树~
 TG： https://t.me/+blyHrp_GihhhMWVl
 
 > 不常用，但看到会回
-
----
-
-~~Matrix： matrix.to/#/#acofork-tech:matrix.afo.im [详细教程](https://www.afo.im/posts/element/)~~ （因域名迁移，暂时不可用）
-
-> 及其不常用，除非你在别的平台让我去看
-
----
