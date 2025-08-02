@@ -28,4 +28,6 @@ QQ群：1051639698 （请务必遵守群规！！）
 
 TG： https://t.me/+blyHrp_GihhhMWVl
 
+没魔法？大陆直连TG Web： https://tgweb.072103.xyz
+
 > 不常用，但看到会回
