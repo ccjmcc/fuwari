@@ -12,6 +12,8 @@ description: 关于如何联系二叉树树~
 
 ### TG： https://t.me/+blyHrp_GihhhMWVl
 
+> 没有魔法？免费： dmxlc3M6Ly8zN2M3N2Y0YS1lZjlhLTRjMjItYjdhMS1kM2I1NmNjMWFjOTZAci4wNzIxMDMueHl6OjQ0Mz9lbmNyeXB0aW9uPW5vbmUmc2VjdXJpdHk9dGxzJnNuaT1yLjA3MjEwMy54eXomYWxsb3dJbnNlY3VyZT0xJnR5cGU9d3MmcGF0aD0lMkYjNzFocWRod3kNCg==
+
 ---
 
 ## 矩阵
