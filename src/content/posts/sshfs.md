@@ -30,3 +30,11 @@ lang: ''
 接下来点击 `Add Connection` 懂的都懂
 
 ![](../assets/images/2025-08-03-19-20-24-image.png)
+
+保存后点击连接按钮
+
+![](../assets/images/2025-08-04-11-58-52-image.png)
+
+接着你就能在文件资源管理器看到你的盘了
+
+![](../assets/images/2025-08-04-11-59-20-image.png)

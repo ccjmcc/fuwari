@@ -76,14 +76,6 @@ EO边缘函数也支持重定向，支持更细化的重定向规则
 
 # EdgeOne反代一切？
 
-yep！
-
-目前我已经将我的Docker，Github反代全面部署了EdgeOne的版本！
-
-原理也很简单，这俩都是Cloudflare Worker，只需要添加路由，再让EO回源CF 边缘节点即可！（这里的回源Host头要使用加速域名，而你的加速域名要设置为对应的Worker路由）
-
-![](../assets/images/19a39c25-7dfc-4817-8fd0-379e7f6dd6c2.webp)
-
-![](../assets/images/8e580f70-d291-4755-b52e-319ba3b9618f.webp)
-
-![](../assets/images/483f87e6-4a78-4c88-a889-04b63363cf04.webp)
+> 大部分情况将 `回源HOST头` 改为源站就能解决反代后网站无法访问的问题
+> 
+> ![](../assets/images/2025-08-04-12-00-41-image.png)

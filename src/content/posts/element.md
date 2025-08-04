@@ -1,5 +1,5 @@
 ---
-title: 关于如何加入我们自托管的matrix.afo.im端到端加密聊天服务器
+title: （弃用）关于如何加入我们自托管的matrix.afo.im端到端加密聊天服务器
 published: 2025-07-16
 description: '我在一台主机上托管了一个synapse，现在你可以使用Element通过我的邀请链接加入这个端到端加密聊天服务器'
 image: ../assets/images/d676d367-061a-48ea-9157-ce00c6120232.webp
@@ -9,7 +9,7 @@ draft: false
 lang: ''
 ---
 
-# 此文过旧，请参见 [这里](/tit/)
+# 此文过旧，请参见 [这里](/tit/) 加入其他群聊。我们已经不再运营Matrix
 
 ---
 
