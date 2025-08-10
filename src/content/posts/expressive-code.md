@@ -16,6 +16,7 @@ draft: false
 > 2. 推完ac后发现在ec中引用了三个插件,但是pnpm astro add并没有自动安装,第二次修改  
 > 3. 现在正常跑起来了,但是由于2x主题的原因,样式很奇怪,再改一次
 > 4. 这下正常了,推pr去
+> 5. 没错我又回来了,滑块样式有问题,什么奇奇怪怪的圆角对不齐,干脆调小圆角
 
 Here, we'll explore how code blocks look using [Expressive Code](https://expressive-code.com/). The provided examples are based on the official documentation, which you can refer to for further details.
 在这里，我们将探索使用 [Expressive Code](https://expressive-code.com/) 的代码块显示效果。提供的示例基于官方文档，您可以参考该文档获取更多细节。
