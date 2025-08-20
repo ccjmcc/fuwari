@@ -8,6 +8,9 @@ category: '记录'
 draft: false 
 lang: ''
 ---
+
+> 本文由 https://github.com/afoim/fuwari/pull/40 提供，非站长原创
+
 [https://github.com/yunsen2025/wordpress-pinglunhuifu](https://github.com/yunsen2025/wordpress-pinglunhuifu)
 # 效果演示
 ![alt text](https://imgbed.112601.xyz/file/1755431020051.png)
