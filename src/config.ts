@@ -131,3 +131,11 @@ export const gitHubEditConfig: GitHubEditConfig = {
 	enable: true,
 	baseUrl: "https://github.com/afoim/fuwari/blob/main/src/content/posts",
 };
+
+export const statsConfig = {
+	viewsText: "浏览量",
+	visitsText: "访客",
+	loadingText: "统计加载中...",
+	unavailableText: "统计不可用。请前往置顶文章联系二叉树树",
+	getStatsText: (pageViews: number, visits: number) => `${statsConfig.viewsText} ${pageViews} · ${statsConfig.visitsText} ${visits}`,
+};

@@ -53,7 +53,6 @@ const imageStyle = `object-position: ${position}`;
     </div>
     
     <!-- 图片内容 -->
-    <div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none"></div>
     {isLocal && img && <Image src={img} alt={alt || ""} class={`${imageClass} image-content opacity-0 transition-opacity duration-500`} style={imageStyle} onload="this.style.opacity='1'; this.parentElement.querySelector('.loading-bar').style.opacity='0';"/>}
     {!isLocal && (
         imageFallbackConfig.enable && src.includes(imageFallbackConfig.originalDomain) ? 
@@ -80,9 +79,12 @@ const imageStyle = `object-position: ${position}`;
         animation: loading-progress 1.5s ease-in-out infinite;
     }
     
+    .image-content {
+        transition: transform 0.3s ease-out, opacity 0.5s ease-out;
+    }
+    
     .image-wrapper:hover .image-content {
         transform: scale(1.05);
-        transition: transform 0.3s ease-out, opacity 0.5s ease-out;
     }
 </style>
 
