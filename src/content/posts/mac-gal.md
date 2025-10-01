@@ -39,4 +39,8 @@ lang: ""
 
 前往 https://zhangyue667.lanzouh.com/DirectXRepairEnhanced 下载并解压运行DX修复工具。运行后，程序会自动安装DX9和VC++运行库，这足以保障大部分游戏顺利运行！
 
+如果遇到游戏打不开或第一次能打开后续打不开，请按需配置微软仿真
+
+![](../assets/images/mac-gal-6.png)
+
 现在，享受吧！
