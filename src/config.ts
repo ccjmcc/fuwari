@@ -58,9 +58,6 @@ export const siteConfig: SiteConfig = {
 	],
 	officialSites: [
 		{ url: "https://acofork.com", alias: "EdgeOne CN" },
-		{ url: "https://2x.nz", alias: "Vercel" },
-		
-		{ url: "https://b.2.f.f.0.7.4.0.1.0.0.2.ip6.arpa", alias: "Cloudflare" },
 	],
 };
 
