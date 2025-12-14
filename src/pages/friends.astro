@@ -14,6 +14,11 @@ const friends = Object.values(import.meta.glob<Friend>("@/data/friends/*.json", 
             </div>
             <h1 class="text-2xl font-bold text-black dark:text-white">友链</h1>
         </div>
+
+        <!-- 申请友链 -->
+            <p class="text-sm text-black/60 dark:text-white/60 mb-4">
+            如果您也想加入友链名单，<a target="_blank" href="https://github.com/afoim/fuwari/tree/main/src/data/friends" class="transition link text-[var(--primary)] font-medium underline">请点击这里提交</a>
+            </p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             {friends.map((friend) => (
                 <a href={friend.url} target="_blank" class="friend-card">
@@ -26,17 +31,7 @@ const friends = Object.values(import.meta.glob<Friend>("@/data/friends/*.json", 
             ))}
         </div>
 
-        <!-- 申请友链 -->
-        <div class="sponsors-section mt-8">
-        	<h2 class="text-xl font-bold text-black dark:text-white mb-4 flex items-center gap-2">
-        		<Icon name="material-symbols:group" class="text-[1.5rem] text-[var(--primary)]"/>
-        		将您的网站加入本站友链
-        	</h2>
-        	<p class="text-sm text-black/60 dark:text-white/60">
-        		请自行提交PR <a target="_blank" href="https://github.com/afoim/fuwari/tree/main/src/data/friends" class="transition link text-[var(--primary)] font-medium underline">点击这里提交</a>
-        	</p>
-        <br>
-    </div>
+
 
 </MainGridLayout>
 
