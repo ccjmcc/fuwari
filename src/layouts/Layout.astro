@@ -311,7 +311,9 @@ var _hmt = _hmt || [];
 					}).filter(domain => domain !== null);
 					
 					// 检查当前域名是否为官方域名或本地开发环境
-					const isOfficialDomain = officialDomains.includes(currentDomain);
+					const isOfficialDomain = officialDomains.some(officialDomain => 
+                        currentDomain === officialDomain || currentDomain.endsWith('.' + officialDomain)
+                    );
 					const isLocalDev = currentDomain === 'localhost' || currentDomain === '127.0.0.1';
 					
 					// 如果当前域名不是官方域名且不是本地开发环境
