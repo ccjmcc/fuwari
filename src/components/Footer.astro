@@ -60,9 +60,9 @@ try {
         const serverInfo = document.getElementById('server-info');
         if (serverInfo) {
             if (server) {
-                serverInfo.innerText = `访问节点: ${server}`;
+                serverInfo.innerText = `访问节点：${server}`;
             } else {
-               return;
+                serverInfo.innerText = "访问节点：未知";
             }
         }
     });
