@@ -137,7 +137,7 @@ const bannerOffset =
 				localStorage.setItem('theme', DARK_MODE);
 			} else {
 				// Load the theme from local storage
-				const theme = localStorage.getItem('theme') || DEFAULT_THEME;
+				const theme = localStorage.getItem('theme') || AUTO_MODE;
 				switch (theme) {
 					case LIGHT_MODE:
 						document.documentElement.classList.remove('dark');
