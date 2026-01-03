@@ -82,8 +82,8 @@ export const navBarConfig: NavBarConfig = {
 			external: true, // Show an external link icon and will open in a new tab
 		},
 		{
-			name: "状态",
-			url: "https://ok.2x.nz", // Internal links should not include the base path, as it is automatically added
+			name: "监控",
+			url: "https://2x.nz/ok", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
 		},
 	],
