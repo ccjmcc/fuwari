@@ -13,7 +13,9 @@ https://www.bilibili.com/video/BV1BCi1B7E1q/
 https://2x.nz/s
 
 # 拿域名！
-我们可以前往这些地方寻找短域名，建议后缀 `.nz` `.mk` `.im` 
+我们需要一个短域名，来作为我们的短链服务的入口
+
+我们可以前往这些地方购买短域名，建议后缀 `.nz` `.mk` `.im` ，建议2-3位长度的域名
 - [迈向未来 - Spaceship](https://www.spaceship.com/zh/)
 - [porkbun.com | An oddly satisfying experience.](https://porkbun.com/)
 - [【趣域网】域名注册网站哪个好_注册域名查询购买_whois信息查询_域名交易网_ - 趣域网](https://www.quyu.net/)
