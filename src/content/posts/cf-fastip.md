@@ -132,12 +132,18 @@ function getProxyPrefix(hostname) {
 最后写一条DNS解析 `CNAME gitea.afo.im --> 社区优选域名，如 cf.090227.xyz` 即可
 
 # 针对于A、AAAA、CNAME（SaaS接入）
+> [!WARNING]
+> 记得将 SSL 改为灵活
+> ![](../assets/images/cf-fastip-1.png)
 
 > 我们需要**一个域名或两个域名**（单域名直接用子域名即可。双域名比如：onani.cn和acofork.cn）。
 > 
 > **如果在同一CF账号下不可用，请尝试将俩域名放置在不同账号**
 
 这里我们让onani.cn成为主力域名，让acofork.cn成为辅助域名
+
+单域名效果
+![](../assets/images/cf-fastip.png)
 
 ---
 
