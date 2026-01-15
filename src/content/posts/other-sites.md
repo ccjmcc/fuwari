@@ -10,7 +10,7 @@ lang: ''
 
 ::url{href="https://cover.acofork.com"}
 ::url{href="https://http.acofork.com"}
-::url{href="https://pic.acofork.com"}
+::url{href="https://pic1.acofork.com"}
 ::url{href="https://gallery.acofork.com"}
 ::url{href="https://img.072103.xyz"}
 ::url{href="https://eopfapi.acofork.com/pic"}

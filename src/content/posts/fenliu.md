@@ -12,7 +12,7 @@ lang: ""
 Umami，用于在网站插入一个JS来进行访客统计以及展示访客信息
 ::url{href="https://umami.acofork.com/share/CdkXbGgZr6ECKOyK"}
 静态随机图，用于置顶文章Cover和整个网站的背景图
-::url{href="https://pic.acofork.com"}
+::url{href="https://pic1.acofork.com"}
 
 ---
 其他： https://acofork.com , https://www.acofork.com
