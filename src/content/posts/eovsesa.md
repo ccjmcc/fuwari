@@ -42,7 +42,8 @@ ESA的很多东西直接是照抄Cloudflare的，比如：
 ![](../assets/images/eovsesa-5.png)
 ![](../assets/images/eovsesa-6.png)
 
-甚至你还可以对不合法请求在L7给空。
+甚至你还可以对不合法请求在L7给空。（不推荐，规则引擎的假拦截也算正常请求）
+![](../assets/images/1f63e461bfa538605c7734042edd68f6.png)
 
 ![](../assets/images/eovsesa-7.png)
 ![](../assets/images/eovsesa-8.png)
