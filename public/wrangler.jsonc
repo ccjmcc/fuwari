@@ -2,7 +2,7 @@
 	"name": "fuwari",
 	"compatibility_date": "2025-08-11",
 	"assets": {
-		"directory": "./dist",
+		"directory": "./",
 		"not_found_handling": "404-page"
 	}
 }
