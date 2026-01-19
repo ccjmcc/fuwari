@@ -232,6 +232,13 @@ const bannerOffset =
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
 		  data-overlayscrollbars-initialize
 	>
+		<noscript>
+			<style>
+				#bg-box {
+					opacity: 1 !important;
+				}
+			</style>
+		</noscript>
 		<div id="bg-box"></div>
 		<ConfigCarrier></ConfigCarrier>
 		<slot />

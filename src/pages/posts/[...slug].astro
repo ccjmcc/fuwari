@@ -166,8 +166,8 @@ const jsonLd = {
 
             
             <!-- Giscus 评论区 -->
-            <div id="giscus-container"></div>
-            <script is:inline>
+            <div id="giscus-container" data-swup-ignore-script></div>
+            <script is:inline data-swup-ignore-script>
                 function loadGiscus() {
                     const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
                     
@@ -224,6 +224,15 @@ const jsonLd = {
 
                 // 支持 Swup 页面切换
                 document.addEventListener('swup:contentReplaced', loadGiscus);
+                document.addEventListener('swup:pageView', loadGiscus); 
+                document.addEventListener('swup:visit:end', (event) => {
+                     // 只有当访问的是文章页面时才加载 Giscus
+                     // 这里的逻辑可以根据实际情况调整，例如检查页面是否包含 giscus-container
+                     const container = document.getElementById('giscus-container');
+                     if (container) {
+                        loadGiscus();
+                     }
+                });
             </script>
     <br>
 
