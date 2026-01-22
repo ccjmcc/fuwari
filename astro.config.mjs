@@ -34,7 +34,7 @@ export default defineConfig({
 	image: {
 		service: passthroughImageService(),
 	},
-	site: "https://blog.acofork.com",
+	site: "https://ccjm.dpdns.org/",
 	base: "/",
 	trailingSlash: "always",
 	output: "static",

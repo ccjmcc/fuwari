@@ -11,10 +11,10 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "AcoFork Blog",
+	title: "ccjm Blog",
 	subtitle: "技术分享与实践",
 	description:
-		"分享网络技术、服务器部署、内网穿透、静态网站搭建、CDN优化、容器化部署等技术教程与实践经验的个人技术博客，专注于云原生、无服务器架构和前后端开发，作者为afoim/二叉树树",
+		"分享网络技术、web安全、服务器、网络安全、web开发、硬件开发、日常生活、前端开发、技术分析",
 
 	keywords: [],
 	lang: "zh_CN", // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
@@ -57,12 +57,12 @@ export const siteConfig: SiteConfig = {
 		},
 	],
 	officialSites: [
-		{ url: "https://blog.acofork.com", alias: "CN" },
-		{ url: "https://2x.nz", alias: "Global" },
+		{ url: "https://ccjm.dpdns.org/", alias: "CN" },
+		{ url: "https://ccjm.dpdns.org/", alias: "Global" },
 	],
 	server: [
 		{ url: "", text: "Blog" },
-		{ url: "https://umami.acofork.com", text: "Umami" },
+		//{ url: "https://umami.acofork.com", text: "Umami" },
 		{ url: "https://pic1.acofork.com", text: "RandomPic" },
 	],
 };
@@ -81,11 +81,11 @@ export const navBarConfig: NavBarConfig = {
 			url: "/sponsors/", // Internal links should not include the base path, as it is automatically added
 			external: false, // Show an external link icon and will open in a new tab
 		},
-		{
-			name: "统计",
-			url: "https://umami.acofork.com/share/CdkXbGgZr6ECKOyK", // Internal links should not include the base path, as it is automatically added
-			external: true, // Show an external link icon and will open in a new tab
-		},
+		//{
+			//name: "统计",
+			//url: "https://umami.acofork.com/share/CdkXbGgZr6ECKOyK", // Internal links should not include the base path, as it is automatically added
+			//external: true, // Show an external link icon and will open in a new tab
+		//},
 		{
 			name: "监控",
 			url: "https://status.acofork.com", // Internal links should not include the base path, as it is automatically added
@@ -95,11 +95,11 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "https://q2.qlogo.cn/headimg_dl?dst_uin=2726730791&spec=0", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "二叉树树",
+	avatar: "https://ccjmcc.github.io/img/about.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	name: "ccjm",
 	bio: "Protect What You Love.",
 	links: [
-		{
+		/*{
 			name: "QQ",
 			icon: "qq", // Local icon
 			url: "https://qm.qq.com/q/FWqOHlwL2m",
@@ -124,6 +124,7 @@ export const profileConfig: ProfileConfig = {
 			icon: "folo", // Local icon
 			url: "https://app.folo.is/share/feeds/236818461447222272",
 		},
+		*/
 	],
 };
 
@@ -139,12 +140,12 @@ export const imageFallbackConfig: ImageFallbackConfig = {
 	fallbackDomain: "https://eopfapi.acofork.com/pic?img=ua",
 };
 
-export const umamiConfig: UmamiConfig = {
+/*export const umamiConfig: UmamiConfig = {
 	enable: true,
 	baseUrl: "https://umami.acofork.com",
 	shareId: "CdkXbGgZr6ECKOyK",
 	timezone: "Asia/Shanghai",
-};
+};	*/
 
 export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	theme: "github-dark",
@@ -152,7 +153,7 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 
 export const gitHubEditConfig: GitHubEditConfig = {
 	enable: true,
-	baseUrl: "https://github.com/afoim/fuwari/blob/main/src/content/posts",
+	baseUrl: "https://github.com/ccjmcc/fuwariblob/main/src/content/posts",
 };
 
 // todoConfig removed from here
