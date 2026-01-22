@@ -140,12 +140,12 @@ export const imageFallbackConfig: ImageFallbackConfig = {
 	fallbackDomain: "https://eopfapi.acofork.com/pic?img=ua",
 };
 
-/*export const umamiConfig: UmamiConfig = {
-	enable: true,
+export const umamiConfig: UmamiConfig = {
+	enable: false, // 设置为 false 禁用 Umami 统计，需要时改为 true 并配置相应参数
 	baseUrl: "https://umami.acofork.com",
 	shareId: "CdkXbGgZr6ECKOyK",
 	timezone: "Asia/Shanghai",
-};	*/
+};
 
 export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	theme: "github-dark",
