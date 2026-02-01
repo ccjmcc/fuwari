@@ -1,0 +1,169 @@
+goroutine profile: total 1371
+461 @ 0x43a605 0x40676f 0x4063eb 0x9df067 0xa17569 0x46fb81
+#	0x9df066	github.com/Shopify/sarama.(*Broker).responseReceiver+0xc6	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/broker.go:788
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+196 @ 0x43a605 0x40676f 0x4063eb 0x9d6f4f 0xa17569 0x46fb81
+#	0x9d6f4e	github.com/Shopify/sarama.(*partitionProducer).dispatch+0xee	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/async_producer.go:515
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+194 @ 0x43a605 0x40676f 0x4063eb 0x7c236e 0x7c3815 0x46fb81
+#	0x7c236d	github.com/valyala/fasthttp.(*workerPool).workerFunc+0x6d	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:218
+#	0x7c3814	github.com/valyala/fasthttp.(*workerPool).getCh.func1+0x34	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:195
+
+162 @ 0x43a605 0x44a5ef 0x9d8790 0xa17569 0x46fb81
+#	0x9d878f	github.com/Shopify/sarama.(*brokerProducer).run+0x1cf	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/async_producer.go:706
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48		/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+147 @ 0x43a605 0x40676f 0x4063eb 0xa18b7d 0xa17569 0x46fb81
+#	0xa18b7c	github.com/Shopify/sarama.(*asyncProducer).newBrokerProducer.func1+0x7c	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/async_producer.go:655
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48				/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+63 @ 0x43a605 0x40676f 0x4063eb 0xa539dc 0x46fb81
+#	0xa539db	weibo.com/abaci_forward/internal/app/task.(*PersistUnit).Persist+0x15b	/var/jenkins/workspace/KUN__Abaci_front/internal/app/task/persist.go:165
+
+63 @ 0x43a605 0x40676f 0x4063eb 0xa59c7d 0x46fb81
+#	0xa59c7c	weibo.com/abaci_forward/internal/app/task.(*PersistUnit).Persist.func1+0x9c	/var/jenkins/workspace/KUN__Abaci_front/internal/app/task/persist.go:158
+
+14 @ 0x43a605 0x432adb 0x46a315 0x49e145 0x49f185 0x49f163 0x5bc32f 0x5cfc8e 0x506782 0xa1772d 0x47cd47 0x9df230 0x9df1bc 0xa17569 0x46fb81
+#	0x46a314	internal/poll.runtime_pollWait+0x54				/usr/local/go/src/runtime/netpoll.go:222
+#	0x49e144	internal/poll.(*pollDesc).wait+0x44				/usr/local/go/src/internal/poll/fd_poll_runtime.go:87
+#	0x49f184	internal/poll.(*pollDesc).waitRead+0x1a4			/usr/local/go/src/internal/poll/fd_poll_runtime.go:92
+#	0x49f162	internal/poll.(*FD).Read+0x182					/usr/local/go/src/internal/poll/fd_unix.go:159
+#	0x5bc32e	net.(*netFD).Read+0x4e						/usr/local/go/src/net/fd_posix.go:55
+#	0x5cfc8d	net.(*conn).Read+0x8d						/usr/local/go/src/net/net.go:182
+#	0x506781	bufio.(*Reader).Read+0x221					/usr/local/go/src/bufio/bufio.go:227
+#	0xa1772c	github.com/Shopify/sarama.(*bufConn).Read+0x4c			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:109
+#	0x47cd46	io.ReadAtLeast+0x86						/usr/local/go/src/io/io.go:314
+#	0x9df22f	io.ReadFull+0x28f						/usr/local/go/src/io/io.go:333
+#	0x9df1bb	github.com/Shopify/sarama.(*Broker).responseReceiver+0x21b	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/broker.go:801
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+14 @ 0x43a605 0x44a5ef 0x9de8a5 0x9dc988 0xa18bb3 0xa17569 0x46fb81
+#	0x9de8a4	github.com/Shopify/sarama.(*Broker).sendAndReceive+0x144		/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/broker.go:715
+#	0x9dc987	github.com/Shopify/sarama.(*Broker).Produce+0xe7			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/broker.go:344
+#	0xa18bb2	github.com/Shopify/sarama.(*asyncProducer).newBrokerProducer.func1+0xb2	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/async_producer.go:658
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48				/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+12 @ 0x43a605 0x40676f 0x4063ab 0x9da6e5 0xa17569 0x46fb81
+#	0x9da6e4	github.com/Shopify/sarama.(*asyncProducer).retryHandler+0x204	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/async_producer.go:975
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+12 @ 0x43a605 0x40676f 0x4063eb 0x9d5f3a 0xa17569 0x46fb81
+#	0x9d5f39	github.com/Shopify/sarama.(*asyncProducer).dispatcher+0xd9	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/async_producer.go:299
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+12 @ 0x43a605 0x44a5ef 0x9e8dda 0xa17569 0x46fb81
+#	0x9e8dd9	github.com/Shopify/sarama.(*client).backgroundMetadataUpdater+0x139	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/client.go:709
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48				/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+7 @ 0x43a605 0x40676f 0x4063eb 0x9d6705 0xa17569 0x46fb81
+#	0x9d6704	github.com/Shopify/sarama.(*topicProducer).dispatch+0x64	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/async_producer.go:377
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
+3 @ 0x43a605 0x432adb 0x46a315 0x49e145 0x49f185 0x49f163 0x5bc32f 0x5cfc8e 0x506105 0x50626f 0x7b83c5 0x7c23c2 0x7c3815 0x46fb81
+#	0x46a314	internal/poll.runtime_pollWait+0x54				/usr/local/go/src/runtime/netpoll.go:222
+#	0x49e144	internal/poll.(*pollDesc).wait+0x44				/usr/local/go/src/internal/poll/fd_poll_runtime.go:87
+#	0x49f184	internal/poll.(*pollDesc).waitRead+0x1a4			/usr/local/go/src/internal/poll/fd_poll_runtime.go:92
+#	0x49f162	internal/poll.(*FD).Read+0x182					/usr/local/go/src/internal/poll/fd_unix.go:159
+#	0x5bc32e	net.(*netFD).Read+0x4e						/usr/local/go/src/net/fd_posix.go:55
+#	0x5cfc8d	net.(*conn).Read+0x8d						/usr/local/go/src/net/net.go:182
+#	0x506104	bufio.(*Reader).fill+0x104					/usr/local/go/src/bufio/bufio.go:101
+#	0x50626e	bufio.(*Reader).Peek+0x4e					/usr/local/go/src/bufio/bufio.go:139
+#	0x7b83c4	github.com/valyala/fasthttp.(*Server).serveConn+0x1d04		/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/server.go:2022
+#	0x7c23c1	github.com/valyala/fasthttp.(*workerPool).workerFunc+0xc1	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:223
+#	0x7c3814	github.com/valyala/fasthttp.(*workerPool).getCh.func1+0x34	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:195
+
+2 @ 0x43a605 0x432adb 0x46a315 0x49e145 0x49f185 0x49f163 0x5bc32f 0x5cfc8e 0x506105 0x50626f 0x79bc1b 0x79ba56 0x7b8008 0x7c23c2 0x7c3815 0x46fb81
+#	0x46a314	internal/poll.runtime_pollWait+0x54				/usr/local/go/src/runtime/netpoll.go:222
+#	0x49e144	internal/poll.(*pollDesc).wait+0x44				/usr/local/go/src/internal/poll/fd_poll_runtime.go:87
+#	0x49f184	internal/poll.(*pollDesc).waitRead+0x1a4			/usr/local/go/src/internal/poll/fd_poll_runtime.go:92
+#	0x49f162	internal/poll.(*FD).Read+0x182					/usr/local/go/src/internal/poll/fd_unix.go:159
+#	0x5bc32e	net.(*netFD).Read+0x4e						/usr/local/go/src/net/fd_posix.go:55
+#	0x5cfc8d	net.(*conn).Read+0x8d						/usr/local/go/src/net/net.go:182
+#	0x506104	bufio.(*Reader).fill+0x104					/usr/local/go/src/bufio/bufio.go:101
+#	0x50626e	bufio.(*Reader).Peek+0x4e					/usr/local/go/src/bufio/bufio.go:139
+#	0x79bc1a	github.com/valyala/fasthttp.(*RequestHeader).tryRead+0xba	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/header.go:1376
+#	0x79ba55	github.com/valyala/fasthttp.(*RequestHeader).Read+0x55		/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/header.go:1362
+#	0x7b8007	github.com/valyala/fasthttp.(*Server).serveConn+0x1947		/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/server.go:2052
+#	0x7c23c1	github.com/valyala/fasthttp.(*workerPool).workerFunc+0xc1	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:223
+#	0x7c3814	github.com/valyala/fasthttp.(*workerPool).getCh.func1+0x34	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:195
+
+1 @ 0x40c414 0x46c4dd 0x4acee5 0x46fb81
+#	0x46c4dc	os/signal.signal_recv+0x9c	/usr/local/go/src/runtime/sigqueue.go:147
+#	0x4acee4	os/signal.loop+0x24		/usr/local/go/src/os/signal/signal_unix.go:23
+
+1 @ 0x43a605 0x40676f 0x4063ab 0x9c1211 0x46fb81
+#	0x9c1210	github.com/rcrowley/go-metrics.(*meterArbiter).tick+0x30	/root/go/pkg/mod/github.com/rcrowley/go-metrics@v0.0.0-20181016184325-3113b8401b8a/meter.go:239
+
+1 @ 0x43a605 0x44a5ef 0xa5cb89 0x43a209 0x46fb81
+#	0xa5cb88	main.main+0x1e8		/var/jenkins/workspace/KUN__Abaci_front/internal/main.go:39
+#	0x43a208	runtime.main+0x208	/usr/local/go/src/runtime/proc.go:204
+
+1 @ 0x43a605 0x46cc9f 0x7c314a 0x46fb81
+#	0x46cc9e	time.Sleep+0xbe						/usr/local/go/src/runtime/time.go:188
+#	0x7c3149	github.com/valyala/fasthttp.updateServerDate.func1+0x29	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/header.go:1438
+
+1 @ 0x43a605 0x46cc9f 0x7c3777 0x46fb81
+#	0x46cc9e	time.Sleep+0xbe							/usr/local/go/src/runtime/time.go:188
+#	0x7c3776	github.com/valyala/fasthttp.(*workerPool).Start.func2+0x56	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:66
+
+1 @ 0x469ebd 0x9751a2 0x974f65 0x971b32 0x97f905 0x6dbae4 0x912693 0x981ecb 0xa582c6 0x7f378f 0x7b786c 0x7c23c2 0x7c3815 0x46fb81
+#	0x469ebc	runtime/pprof.runtime_goroutineProfileWithLabels+0x5c				/usr/local/go/src/runtime/mprof.go:716
+#	0x9751a1	runtime/pprof.writeRuntimeProfile+0xe1						/usr/local/go/src/runtime/pprof/pprof.go:724
+#	0x974f64	runtime/pprof.writeGoroutine+0xa4						/usr/local/go/src/runtime/pprof/pprof.go:684
+#	0x971b31	runtime/pprof.(*Profile).WriteTo+0x3f1						/usr/local/go/src/runtime/pprof/pprof.go:331
+#	0x97f904	net/http/pprof.handler.ServeHTTP+0x384						/usr/local/go/src/net/http/pprof/pprof.go:256
+#	0x6dbae3	net/http.HandlerFunc.ServeHTTP+0x43						/usr/local/go/src/net/http/server.go:2042
+#	0x912692	github.com/valyala/fasthttp/fasthttpadaptor.NewFastHTTPHandler.func1+0x452	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/fasthttpadaptor/adaptor.go:85
+#	0x981eca	github.com/valyala/fasthttp/pprofhandler.PprofHandler+0x38a			/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/pprofhandler/pprof.go:38
+#	0xa582c5	weibo.com/abaci_forward/internal/app/task.InternalNetworkMiddleware.func1+0x65	/var/jenkins/workspace/KUN__Abaci_front/internal/app/task/middleware.go:145
+#	0x7f378e	github.com/fasthttp/router.(*Router).Handler+0x7ce				/root/go/pkg/mod/github.com/fasthttp/router@v1.3.4/router.go:413
+#	0x7b786b	github.com/valyala/fasthttp.(*Server).serveConn+0x11ab				/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/server.go:2168
+#	0x7c23c1	github.com/valyala/fasthttp.(*workerPool).workerFunc+0xc1			/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:223
+#	0x7c3814	github.com/valyala/fasthttp.(*workerPool).getCh.func1+0x34			/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:195
+
+1 @ 0x486305 0x483f1a 0x4a44ec 0x4a44be 0x4a1f07 0x49f11e 0x5bc32f 0x5cfc8e 0x506105 0x50626f 0x79bc1b 0x79ba56 0x7b8008 0x7c23c2 0x7c3815 0x46fb81
+#	0x486304	syscall.Syscall+0x4						/usr/local/go/src/syscall/asm_linux_amd64.s:18
+#	0x483f19	syscall.read+0x59						/usr/local/go/src/syscall/zsyscall_linux_amd64.go:686
+#	0x4a44eb	syscall.Read+0x4b						/usr/local/go/src/syscall/syscall_unix.go:187
+#	0x4a44bd	internal/poll.(*FD).Read.func1+0x1d				/usr/local/go/src/internal/poll/fd_unix.go:155
+#	0x4a1f06	internal/poll.ignoringEINTR+0x26				/usr/local/go/src/internal/poll/fd_unix.go:567
+#	0x49f11d	internal/poll.(*FD).Read+0x13d					/usr/local/go/src/internal/poll/fd_unix.go:155
+#	0x5bc32e	net.(*netFD).Read+0x4e						/usr/local/go/src/net/fd_posix.go:55
+#	0x5cfc8d	net.(*conn).Read+0x8d						/usr/local/go/src/net/net.go:182
+#	0x506104	bufio.(*Reader).fill+0x104					/usr/local/go/src/bufio/bufio.go:101
+#	0x50626e	bufio.(*Reader).Peek+0x4e					/usr/local/go/src/bufio/bufio.go:139
+#	0x79bc1a	github.com/valyala/fasthttp.(*RequestHeader).tryRead+0xba	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/header.go:1376
+#	0x79ba55	github.com/valyala/fasthttp.(*RequestHeader).Read+0x55		/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/header.go:1362
+#	0x7b8007	github.com/valyala/fasthttp.(*Server).serveConn+0x1947		/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/server.go:2052
+#	0x7c23c1	github.com/valyala/fasthttp.(*workerPool).workerFunc+0xc1	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:223
+#	0x7c3814	github.com/valyala/fasthttp.(*workerPool).getCh.func1+0x34	/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/workerpool.go:195
+
+1 @ 0x486365 0x485679 0x4a2777 0x4a2733 0x5d9b6d 0x5d98d2 0x5d9890 0x5d8645 0x7b5b29 0x7b50cd 0x7b3a32 0xa5c625 0x46fb81
+#	0x486364	syscall.Syscall6+0x4							/usr/local/go/src/syscall/asm_linux_amd64.s:41
+#	0x485678	syscall.setsockopt+0x78							/usr/local/go/src/syscall/zsyscall_linux_amd64.go:1521
+#	0x4a2776	syscall.SetsockoptInt+0xd6						/usr/local/go/src/syscall/syscall_unix.go:307
+#	0x4a2732	internal/poll.(*FD).SetsockoptInt+0x92					/usr/local/go/src/internal/poll/sockopt.go:17
+#	0x5d9b6c	net.setNoDelay+0x4c							/usr/local/go/src/net/tcpsockopt_posix.go:15
+#	0x5d98d1	net.newTCPConn+0x91							/usr/local/go/src/net/tcpsock.go:195
+#	0x5d988f	net.(*TCPListener).accept+0x4f						/usr/local/go/src/net/tcpsock_posix.go:143
+#	0x5d8644	net.(*TCPListener).Accept+0x64						/usr/local/go/src/net/tcpsock.go:261
+#	0x7b5b28	github.com/valyala/fasthttp.acceptConn+0x48				/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/server.go:1788
+#	0x7b50cc	github.com/valyala/fasthttp.(*Server).Serve+0x2ec			/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/server.go:1703
+#	0x7b3a31	github.com/valyala/fasthttp.(*Server).ListenAndServe+0x111		/root/go/pkg/mod/github.com/valyala/fasthttp@v1.18.0/server.go:1488
+#	0xa5c624	weibo.com/abaci_forward/internal/app/server.(*Server).Start.func1+0x64	/var/jenkins/workspace/KUN__Abaci_front/internal/app/server/server.go:48
+
+1 @ 0xa09d2b 0xa123e2 0xa13185 0xa0a9ef 0xa13c1c 0x9f72cd 0x9de22b 0x9de7d2 0x9dc988 0xa18bb3 0xa17569 0x46fb81
+#	0xa09d2a	github.com/Shopify/sarama.(*prepEncoder).putRawBytes+0xea		/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/prep_encoder.go:70
+#	0xa123e1	github.com/Shopify/sarama.(*RecordBatch).encode+0x2e1			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/record_batch.go:91
+#	0xa13184	github.com/Shopify/sarama.(*Records).encode+0xc4			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/records.go:63
+#	0xa0a9ee	github.com/Shopify/sarama.(*ProduceRequest).encode+0x2ae		/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/produce_request.go:106
+#	0xa13c1b	github.com/Shopify/sarama.(*request).encode+0x13b			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/request.go:34
+#	0x9f72cc	github.com/Shopify/sarama.encode+0x8c					/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/encoder_decoder.go:24
+#	0x9de22a	github.com/Shopify/sarama.(*Broker).send+0x28a				/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/broker.go:675
+#	0x9de7d1	github.com/Shopify/sarama.(*Broker).sendAndReceive+0x71			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/broker.go:706
+#	0x9dc987	github.com/Shopify/sarama.(*Broker).Produce+0xe7			/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/broker.go:344
+#	0xa18bb2	github.com/Shopify/sarama.(*asyncProducer).newBrokerProducer.func1+0xb2	/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/async_producer.go:658
+#	0xa17568	github.com/Shopify/sarama.withRecover+0x48				/root/go/pkg/mod/github.com/!shopify/sarama@v1.22.1/utils.go:45
+
