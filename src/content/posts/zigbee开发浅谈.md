@@ -2,7 +2,7 @@
 title: zigbee开发浅谈
 published: 2026-01-31T21:49:03
 description: ''
-image: './zigbee.png'
+image: '../img/zigbee.png'
 
 draft: false 
 lang: ''
