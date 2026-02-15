@@ -111,6 +111,33 @@ const jsonLd = {
                 <Content />
             </Markdown>
 
+            {/* SEO Authority Transfer: Random Keyword Links */}
+            {
+                (() => {
+                    const seoLinks = [
+                        { text: "Explore Smart Home Automation", url: "https://www.twinsglow.com/" },
+                        { text: "Deep Dive into IoT Development", url: "https://www.twinsglow.com/archive/" },
+                        { text: "Master Arch Linux Configuration", url: "https://www.twinsglow.com/posts/" },
+                        { text: "ESP8266 & ESP32 Projects", url: "https://www.twinsglow.com/posts/" },
+                        { text: "Home Assistant Advanced Guide", url: "https://www.twinsglow.com/archive/" }
+                    ];
+                    // Pseudorandom pick based on build time to ensure variety across pages but consistency per build
+                    const randomLinks = seoLinks.sort(() => 0.5 - Math.random()).slice(0, 3);
+                    return (
+                        <div class="mb-6 p-4 rounded-lg bg-[var(--license-block-bg)] border border-[var(--line-divider)] border-dashed opacity-90 hover:opacity-100 transition-opacity onload-animation">
+                            <p class="text-xs font-bold mb-2 text-black/50 dark:text-white/50 uppercase tracking-wider">Further Reading</p>
+                            <div class="flex flex-wrap gap-x-4 gap-y-2">
+                                {randomLinks.map(link => (
+                                    <a href={link.url} class="text-sm font-medium text-[var(--primary)] hover:text-[var(--primary)]/80 hover:underline transition-colors" rel="dofollow">
+                                        {link.text}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })()
+            }
+
             <!-- 文章反馈与编辑区域 -->
             <div class="mb-4 p-4 rounded-lg bg-[var(--license-block-bg)] border border-[var(--line-divider)] onload-animation">
                 <!-- 反馈区域 -->

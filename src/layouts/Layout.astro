@@ -113,6 +113,24 @@ const bannerOffset =
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+        
+        <!-- Standardize authority source to main site -->
+        <link rel="canonical" href={`https://www.twinsglow.com${Astro.url.pathname}`} />
+        
+        <!-- Organization Schema to bind domains -->
+        <script type="application/ld+json" set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "TwinsGlow",
+            "url": "https://www.twinsglow.com",
+            "logo": "https://www.twinsglow.com/favicon.ico",
+            "sameAs": [
+                "https://ccjmcc.github.io",
+                "https://ccjmcc.xyz",
+                "https://www.twinsglow.com"
+            ]
+        })} />
+
         <link rel="preconnect" href="https://pic1.acofork.com" />
         <link rel="preconnect" href="https://umami.acofork.com" />
 		
