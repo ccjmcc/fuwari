@@ -12,7 +12,7 @@ lang: ''
 
 当你成功白嫖到Google Ai Pro 想要将这福利共享给别的好友时 神奇的事情来了
 
-![image-20260221050737405](C:\Users\admin\Desktop\blog\fuwari\src\content\img\image-20260221050737405.png)
+![image-20260221050737405](../img/image-20260221050737405.png)
 
 **非常难受**
 
