@@ -1,4 +1,4 @@
-import { LinkPreset, type NavBarLink } from "@/types/config";
+﻿import { LinkPreset, type NavBarLink } from "@/types/config";
 
 export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 	[LinkPreset.Home]: {
