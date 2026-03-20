@@ -12,10 +12,10 @@ import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
 	title: "ccjm Blog",
-	subtitle: "¼¼Êõ·ÖÏíÓëÊµ¼ù",
+	subtitle: "æŠ€æœ¯åˆ†äº«ä¸å®è·µ",
 	description:
-		"·ÖÏíÍøÂç¼¼Êõ¡¢Web ¿ª·¢¡¢·şÎñÆ÷ÔËÎ¬ÓëÈÕ³£ÕÛÌÚ¼ÇÂ¼¡£",
-	keywords: ["¼¼Êõ²©¿Í", "Web", "Astro", "·şÎñÆ÷", "ÔËÎ¬"],
+		"åˆ†äº«ç½‘ç»œæŠ€æœ¯ã€Web å¼€å‘ã€æœåŠ¡å™¨è¿ç»´ä¸æ—¥å¸¸æŠ˜è…¾è®°å½•ã€‚",
+	keywords: ["æŠ€æœ¯åšå®¢", "Web", "Astro", "æœåŠ¡å™¨", "è¿ç»´"],
 	lang: "zh_CN", // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
 	themeColor: {
 		hue: 250,
@@ -60,7 +60,7 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Home,
 		LinkPreset.Archive,
 		{
-			name: "ÔŞÖú",
+			name: "èµåŠ©",
 			url: "/sponsors/",
 			external: false,
 		},

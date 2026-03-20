@@ -57,14 +57,14 @@ const enableUmamiStats =
 			<div class="text-center">
 				<div class="text-xs text-neutral-500 mb-1 flex items-center justify-center gap-1">
 					<Icon name="material-symbols:article-outline" class="text-base"></Icon>
-					<span class="text-xs">ÎÄÕÂÊı</span>
+					<span class="text-xs">æ–‡ç« æ•°</span>
 				</div>
 				<div class="font-bold text-lg text-neutral-700 dark:text-neutral-300">{totalPosts}</div>
 			</div>
 			<div class="text-center border-l border-neutral-300 dark:border-neutral-700">
 				<div class="text-xs text-neutral-500 mb-1 flex items-center justify-center gap-1">
 					<Icon name="material-symbols:format-list-numbered" class="text-base"></Icon>
-					<span class="text-xs">×Ü×ÖÊı</span>
+					<span class="text-xs">æ€»å­—æ•°</span>
 				</div>
 				<div class="font-bold text-lg text-neutral-700 dark:text-neutral-300">
 					{(totalWords / 10000).toFixed(1)}w
@@ -77,21 +77,21 @@ const enableUmamiStats =
 				<div class="text-center">
 					<div class="text-xs text-neutral-500 mb-1 flex items-center justify-center gap-1">
 						<Icon name="material-symbols:visibility-outline" class="text-base"></Icon>
-						<span class="text-xs">·ÃÎÊÁ¿</span>
+						<span class="text-xs">è®¿é—®é‡</span>
 					</div>
 					<div id="site-views" class="font-bold text-lg text-neutral-700 dark:text-neutral-300">-</div>
 				</div>
 				<div class="text-center border-l border-neutral-300 dark:border-neutral-700">
 					<div class="text-xs text-neutral-500 mb-1 flex items-center justify-center gap-1">
 						<Icon name="material-symbols:person" class="text-base"></Icon>
-						<span class="text-xs">·Ã¿ÍÊı</span>
+						<span class="text-xs">è®¿å®¢æ•°</span>
 					</div>
 					<div id="site-visitors" class="font-bold text-lg text-neutral-700 dark:text-neutral-300">-</div>
 				</div>
 			</div>
 		) : (
 			<div class="mt-3 pt-3 border-t border-neutral-300 dark:border-neutral-700 text-center text-xs text-neutral-500">
-				Õ¾µãÍ³¼ÆÎ´ÆôÓÃ
+				ç«™ç‚¹ç»Ÿè®¡æœªå¯ç”¨
 			</div>
 		)}
 	</div>
@@ -144,7 +144,7 @@ const enableUmamiStats =
 				}
 			}
 		} catch (error) {
-			console.error("»ñÈ¡È«Õ¾Í³¼ÆÊ§°Ü:", error);
+			console.error("è·å–å…¨ç«™ç»Ÿè®¡å¤±è´¥:", error);
 		}
 	}
 
