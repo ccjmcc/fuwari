@@ -1,5 +1,4 @@
 import { getImage } from "astro:assets";
-import { getCollection } from "astro:content";
 import { siteConfig } from "@/config";
 import { getSortedPosts } from "@/utils/content-utils";
 import rss from "@astrojs/rss";

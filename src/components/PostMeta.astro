@@ -21,6 +21,10 @@ const {
 	slug,
 } = Astro.props;
 const className = Astro.props.class;
+const enableUmamiStats =
+	umamiConfig.enable &&
+	umamiConfig.baseUrl.trim().length > 0 &&
+	umamiConfig.shareId.trim().length > 0;
 ---
 
 <div class:list={["flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2", className]}>
@@ -46,7 +50,7 @@ const className = Astro.props.class;
     )}
 
     <!-- page views & visitors -->
-    {slug && (
+    {slug && enableUmamiStats && (
         <>
             <div class="flex items-center">
                 <div class="meta-icon">
@@ -64,7 +68,7 @@ const className = Astro.props.class;
     )}
 </div>
 
-{slug && (
+{slug && enableUmamiStats && (
     <script define:vars={{ slug, umamiConfig }}>
     // 数字动画函数
     function animateValue(obj, start, end, duration, suffix = '') {

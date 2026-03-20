@@ -1,66 +1,41 @@
 ---
-import { siteConfig } from "@/config";
 import Layout from "@/layouts/Layout.astro";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { Icon } from "astro-icon/components";
-
-// Auto-redirect to main site after 3 seconds
-const mainSite = "https://www.twinsglow.com";
 ---
 
-<Layout title="é¡µé¢æœªæ‰¾åˆ°">
-    <head slot="head">
-        <meta http-equiv="refresh" content={`3;url=${mainSite}`} />
-        <script define:vars={{mainSite}}>
-            setTimeout(() => {
-                window.location.href = mainSite;
-            }, 3000);
-        </script>
-    </head>
+<Layout title="Ò³ÃæÎ´ÕÒµ½">
 	<MainGridLayout>
 		<div class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-			<!-- 404 å›¾æ ‡ -->
 			<div class="mb-8">
 				<div class="relative">
-					<div class="text-8xl md:text-9xl font-bold text-[var(--primary)] opacity-20">
-						404
-					</div>
+					<div class="text-8xl md:text-9xl font-bold text-[var(--primary)] opacity-20">404</div>
 					<div class="absolute inset-0 flex items-center justify-center">
-						<Icon name="fa6-solid:face-sad-tear" class="text-6xl md:text-7xl text-[var(--primary)]" />
+						<Icon
+							name="fa6-solid:face-sad-tear"
+							class="text-6xl md:text-7xl text-[var(--primary)]"
+						/>
 					</div>
 				</div>
 			</div>
 
-			<!-- é”™è¯¯ä¿¡æ¯ -->
 			<div class="card-base p-8 max-w-md mx-auto mb-8">
-				<h1 class="text-2xl md:text-3xl font-bold text-90 mb-4">
-					é¡µé¢èµ°ä¸¢äº†
-				</h1>
+				<h1 class="text-2xl md:text-3xl font-bold text-90 mb-4">Ò³Ãæ×ß¶ªÁË</h1>
 				<p class="text-75 mb-6 leading-relaxed">
-					æŠ±æ­‰ï¼Œæ‚¨è®¿é—®çš„é¡µé¢ä¸å­˜åœ¨æˆ–å·²è¢«ç§»åŠ¨ã€‚
-					<br>
-					è¯·æ£€æŸ¥URLæ˜¯å¦æ­£ç¡®ï¼Œæˆ–è€…è¿”å›é¦–é¡µç»§ç»­æµè§ˆã€‚
+					±§Ç¸£¬Äú·ÃÎÊµÄÒ³Ãæ²»´æÔÚ»òÒÑ±»ÒÆ¶¯¡£<br />
+					Çë¼ì²é URL ÊÇ·ñÕıÈ·£¬»ò·µ»ØÊ×Ò³¼ÌĞøä¯ÀÀ¡£
 				</p>
-				
-				<!-- å¯¼èˆªæŒ‰é’® -->
+
 				<div class="flex flex-col sm:flex-row gap-3 justify-center">
 					<a href="/" class="btn-regular-dark px-6 py-3 rounded-lg text-white font-medium">
 						<Icon name="fa6-solid:house" class="mr-2" />
-						è¿”å›é¦–é¡µ
+						·µ»ØÊ×Ò³
 					</a>
 					<a href="/archive/" class="btn-regular px-6 py-3 rounded-lg font-medium">
 						<Icon name="fa6-solid:box-archive" class="mr-2" />
-						æ–‡ç« å½’æ¡£
+						ÎÄÕÂ¹éµµ
 					</a>
 				</div>
-			</div>
-
-			<!-- è¿”å›æç¤º -->
-			<div class="mt-8 text-50 text-sm">
-				<p class="flex items-center justify-center">
-					<Icon name="fa6-solid:clock-rotate-left" class="mr-2" />
-					æ‚¨ä¹Ÿå¯ä»¥ä½¿ç”¨æµè§ˆå™¨çš„åé€€æŒ‰é’®è¿”å›ä¸Šä¸€é¡µ
-				</p>
 			</div>
 		</div>
 	</MainGridLayout>

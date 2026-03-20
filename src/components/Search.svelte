@@ -12,12 +12,23 @@ interface SearchResult {
 	urlPath?: string;
 }
 
+interface SearchPost {
+	title: string;
+	description: string;
+	content: string;
+	link: string;
+	searchTextLower: string;
+	urlPathLower: string;
+	linkLower: string;
+}
+
 let keywordDesktop = "";
 let keywordMobile = "";
 let result: SearchResult[] = [];
-let isSearching = false;
-// biome-ignore lint/suspicious/noExplicitAny: Temporary usage of any for posts array
-let posts: any[] = [];
+let posts: SearchPost[] = [];
+let searchTimer: ReturnType<typeof setTimeout> | null = null;
+
+const SEARCH_DEBOUNCE_MS = 120;
 
 const togglePanel = () => {
 	const panel = document.getElementById("search-panel");
@@ -35,40 +46,36 @@ const setPanelVisibility = (show: boolean, isDesktop: boolean): void => {
 	}
 };
 
+const escapeRegExp = (value: string): string =>
+	value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 const highlightText = (text: string, keyword: string): string => {
 	if (!keyword) return text;
-	const regex = new RegExp(`(${keyword})`, "gi");
+	const regex = new RegExp(`(${escapeRegExp(keyword)})`, "gi");
 	return text.replace(regex, "<mark>$1</mark>");
 };
 
-const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
-	if (!keyword) {
+const runSearch = (keyword: string, isDesktop: boolean): void => {
+	const normalizedKeyword = keyword.trim().toLowerCase();
+
+	if (!normalizedKeyword) {
 		setPanelVisibility(false, isDesktop);
 		result = [];
 		return;
 	}
 
-	isSearching = true;
-
 	try {
 		const searchResults = posts
 			.filter((post) => {
-				const keywordLower = keyword.toLowerCase();
-				const searchText =
-					`${post.title} ${post.description} ${post.content}`.toLowerCase();
-				const urlPath = `/posts/${post.link}`;
-
-				// 支持内容搜索和URL后缀搜索
 				return (
-					searchText.includes(keywordLower) ||
-					urlPath.toLowerCase().includes(keywordLower) ||
-					post.link.toLowerCase().includes(keywordLower)
+					post.searchTextLower.includes(normalizedKeyword) ||
+					post.urlPathLower.includes(normalizedKeyword) ||
+					post.linkLower.includes(normalizedKeyword)
 				);
 			})
 			.map((post) => {
 				const contentLower = post.content.toLowerCase();
-				const keywordLower = keyword.toLowerCase();
-				const contentIndex = contentLower.indexOf(keywordLower);
+				const contentIndex = contentLower.indexOf(normalizedKeyword);
 
 				let excerpt = "";
 				if (contentIndex !== -1) {
@@ -86,10 +93,11 @@ const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
 					meta: {
 						title: post.title,
 					},
-					excerpt: highlightText(excerpt, keyword),
+					excerpt: highlightText(excerpt, keyword.trim()),
 					urlPath: `/posts/${post.link}`,
 				};
-			});
+			})
+			.slice(0, 30);
 
 		result = searchResults;
 		setPanelVisibility(result.length > 0, isDesktop);
@@ -97,48 +105,75 @@ const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
 		console.error("Search error:", error);
 		result = [];
 		setPanelVisibility(false, isDesktop);
-	} finally {
-		isSearching = false;
 	}
 };
 
-onMount(async () => {
-	try {
-		const response = await fetch("/rss.xml");
-		const text = await response.text();
-		const parser = new DOMParser();
-		const xml = parser.parseFromString(text, "text/xml");
-		const items = xml.querySelectorAll("item");
+const scheduleSearch = (keyword: string, isDesktop: boolean): void => {
+	if (searchTimer) {
+		clearTimeout(searchTimer);
+	}
+	searchTimer = setTimeout(() => {
+		runSearch(keyword, isDesktop);
+	}, SEARCH_DEBOUNCE_MS);
+};
 
-		posts = Array.from(items).map((item) => {
-			// 尝试多种方式获取content:encoded内容
-			let content = "";
-			const contentEncoded =
-				item.getElementsByTagNameNS("*", "encoded")[0]?.textContent ||
-				item.querySelector("*|encoded")?.textContent ||
-				"";
+const handleDesktopInput = (): void => {
+	scheduleSearch(keywordDesktop, true);
+};
 
-			if (contentEncoded) {
-				content = contentEncoded.replace(/<[^>]*>/g, "");
-			}
+const handleMobileInput = (): void => {
+	scheduleSearch(keywordMobile, false);
+};
 
-			return {
-				title: item.querySelector("title")?.textContent || "",
-				description: item.querySelector("description")?.textContent || "",
-				content: content,
-				link:
+onMount(() => {
+	(async () => {
+		try {
+			const response = await fetch("/rss.xml");
+			const text = await response.text();
+			const parser = new DOMParser();
+			const xml = parser.parseFromString(text, "text/xml");
+			const items = xml.querySelectorAll("item");
+
+			posts = Array.from(items).map((item) => {
+				let content = "";
+				const contentEncoded =
+					item.getElementsByTagNameNS("*", "encoded")[0]?.textContent ||
+					item.querySelector("*|encoded")?.textContent ||
+					"";
+
+				if (contentEncoded) {
+					content = contentEncoded.replace(/<[^>]*>/g, "");
+				}
+
+				const title = item.querySelector("title")?.textContent || "";
+				const description = item.querySelector("description")?.textContent || "";
+				const link =
 					item
 						.querySelector("link")
-						?.textContent?.replace(/.*\/posts\/(.*?)\//, "$1") || "",
-			};
-		});
-	} catch (error) {
-		console.error("Error fetching RSS:", error);
-	}
-});
+						?.textContent?.replace(/.*\/posts\/(.*?)\//, "$1") || "";
+				const urlPath = `/posts/${link}`;
 
-$: search(keywordDesktop, true);
-$: search(keywordMobile, false);
+				return {
+					title,
+					description,
+					content,
+					link,
+					searchTextLower: `${title} ${description} ${content}`.toLowerCase(),
+					urlPathLower: urlPath.toLowerCase(),
+					linkLower: link.toLowerCase(),
+				};
+			});
+		} catch (error) {
+			console.error("Error fetching RSS:", error);
+		}
+	})();
+
+	return () => {
+		if (searchTimer) {
+			clearTimeout(searchTimer);
+		}
+	};
+});
 </script>
 
 <!-- search bar for desktop view -->
@@ -147,7 +182,7 @@ $: search(keywordMobile, false);
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
 ">
     <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-    <input placeholder="搜索" bind:value={keywordDesktop} on:focus={() => search(keywordDesktop, true)}
+    <input placeholder="Search" bind:value={keywordDesktop} on:input={handleDesktopInput} on:focus={handleDesktopInput}
            class="transition-all pl-10 text-sm bg-transparent outline-0
          h-full w-40 active:w-60 focus:w-60 text-black/50 dark:text-white/50"
     >
@@ -169,7 +204,7 @@ top-20 left-4 md:left-[unset] right-4 shadow-2xl rounded-2xl p-2">
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
   ">
         <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-        <input placeholder="Search" bind:value={keywordMobile}
+        <input placeholder="Search" bind:value={keywordMobile} on:input={handleMobileInput}
                class="pl-10 absolute inset-0 text-sm bg-transparent outline-0
                focus:w-60 text-black/50 dark:text-white/50"
         >

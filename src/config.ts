@@ -12,58 +12,46 @@ import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
 	title: "ccjm Blog",
-	subtitle: "æŠ€æœ¯åˆ†äº«ä¸å®è·µ",
+	subtitle: "¼¼Êõ·ÖÏíÓëÊµ¼ù",
 	description:
-		"åˆ†äº«ç½‘ç»œæŠ€æœ¯ã€webå®‰å…¨ã€æœåŠ¡å™¨ã€ç½‘ç»œå®‰å…¨ã€webå¼€å‘ã€ç¡¬ä»¶å¼€å‘ã€æ—¥å¸¸ç”Ÿæ´»ã€å‰ç«¯å¼€å‘ã€æŠ€æœ¯åˆ†æ",
-
-	keywords: [],
+		"·ÖÏíÍøÂç¼¼Êõ¡¢Web ¿ª·¢¡¢·şÎñÆ÷ÔËÎ¬ÓëÈÕ³£ÕÛÌÚ¼ÇÂ¼¡£",
+	keywords: ["¼¼Êõ²©¿Í", "Web", "Astro", "·şÎñÆ÷", "ÔËÎ¬"],
 	lang: "zh_CN", // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
 	themeColor: {
-		hue: 361, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
-		fixed: false, // Hide the theme color picker for visitors
-		forceDarkMode: false, // Force dark mode and hide theme switcher
+		hue: 250,
+		fixed: false,
+		forceDarkMode: false,
 	},
 	banner: {
 		enable: false,
-		src: "/xinghui.avif", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-
-		position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
+		src: "/xinghui.avif",
+		position: "center",
 		credit: {
-			enable: true, // Display the credit text of the banner image
-			text: "Pixiv @chokei", // Credit text to be displayed
-
-			url: "https://www.pixiv.net/artworks/122782209", // (Optional) URL link to the original artwork or artist's page
+			enable: true,
+			text: "Pixiv @chokei",
+			url: "https://www.pixiv.net/artworks/122782209",
 		},
 	},
 	background: {
-		enable: true, // Enable background image
-		src: "https://t.alcy.cc/ycy", // Background image URL (supports HTTPS)
-		position: "center", // Background position: 'top', 'center', 'bottom'
-		size: "cover", // Background size: 'cover', 'contain', 'auto'
-		repeat: "no-repeat", // Background repeat: 'no-repeat', 'repeat', 'repeat-x', 'repeat-y'
-		attachment: "fixed", // Background attachment: 'fixed', 'scroll', 'local'
-		opacity: 1, // Background opacity (0-1)
+		enable: true,
+		src: "https://t.alcy.cc/ycy",
+		position: "center",
+		size: "cover",
+		repeat: "no-repeat",
+		attachment: "fixed",
+		opacity: 1,
 	},
 	toc: {
-		enable: true, // Display the table of contents on the right side of the post
-		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
+		enable: true,
+		depth: 2,
 	},
 	favicon: [
-		// Leave this array empty to use the default favicon
 		{
-			src: "https://q2.qlogo.cn/headimg_dl?dst_uin=2726730791&spec=0", // Path of the favicon, relative to the /public directory
-			//   theme: 'light',              // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
-			//   sizes: '32x32',              // (Optional) Size of the favicon, set only if you have favicons of different sizes
+			src: "https://q2.qlogo.cn/headimg_dl?dst_uin=2726730791&spec=0",
 		},
 	],
 	officialSites: [
-		{ url: "https://ccjm.dpdns.org/", alias: "CN" },
-		{ url: "https://ccjm.dpdns.org/", alias: "Global" },
-	],
-	server: [
-		{ url: "", text: "Blog" },
-		//{ url: "https://umami.acofork.com", text: "Umami" },
-		{ url: "https://pic1.acofork.com", text: "RandomPic" },
+		{ url: "https://ccjm.dpdns.org/", alias: "Main" },
 	],
 };
 
@@ -72,60 +60,18 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Home,
 		LinkPreset.Archive,
 		{
-			name: "å‹é“¾",
-			url: "/friends/", // Internal links should not include the base path, as it is automatically added
-			external: false, // Show an external link icon and will open in a new tab
-		},
-		{
-			name: "èµåŠ©",
-			url: "/sponsors/", // Internal links should not include the base path, as it is automatically added
-			external: false, // Show an external link icon and will open in a new tab
-		},
-		//{
-			//name: "ç»Ÿè®¡",
-			//url: "https://umami.acofork.com/share/CdkXbGgZr6ECKOyK", // Internal links should not include the base path, as it is automatically added
-			//external: true, // Show an external link icon and will open in a new tab
-		//},
-		{
-			name: "ç›‘æ§",
-			url: "https://status.acofork.com", // Internal links should not include the base path, as it is automatically added
-			external: true, // Show an external link icon and will open in a new tab
+			name: "ÔŞÖú",
+			url: "/sponsors/",
+			external: false,
 		},
 	],
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "https://ccjmcc.github.io/img/about.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "https://ccjmcc.github.io/img/about.jpg",
 	name: "ccjm",
 	bio: "Protect What You Love.",
-	links: [
-		/*{
-			name: "QQ",
-			icon: "qq", // Local icon
-			url: "https://qm.qq.com/q/FWqOHlwL2m",
-		},
-		{
-			name: "Telegram",
-			icon: "telegram", // Local icon
-			url: "https://t.me/+_07DERp7k1ljYTc1",
-		},
-		{
-			name: "Bilibli",
-			icon: "bilibili", // Local icon
-			url: "https://space.bilibili.com/325903362",
-		},
-		{
-			name: "GitHub",
-			icon: "github", // Local icon
-			url: "https://github.com/afoim",
-		},
-		{
-			name: "Folo",
-			icon: "folo", // Local icon
-			url: "https://app.folo.is/share/feeds/236818461447222272",
-		},
-		*/
-	],
+	links: [],
 };
 
 export const licenseConfig: LicenseConfig = {
@@ -141,9 +87,10 @@ export const imageFallbackConfig: ImageFallbackConfig = {
 };
 
 export const umamiConfig: UmamiConfig = {
-	enable: false, // è®¾ç½®ä¸º false ç¦ç”¨ Umami ç»Ÿè®¡ï¼Œéœ€è¦æ—¶æ”¹ä¸º true å¹¶é…ç½®ç›¸åº”å‚æ•°
+	enable: false,
 	baseUrl: "https://umami.acofork.com",
-	shareId: "CdkXbGgZr6ECKOyK",
+	shareId: "",
+	websiteId: "",
 	timezone: "Asia/Shanghai",
 };
 
@@ -153,7 +100,5 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 
 export const gitHubEditConfig: GitHubEditConfig = {
 	enable: true,
-	baseUrl: "https://github.com/ccjmcc/fuwariblob/main/src/content/posts",
+	baseUrl: "https://github.com/ccjmcc/fuwari/blob/main/src/content/posts",
 };
-
-// todoConfig removed from here

@@ -3,7 +3,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
-import { profileConfig, siteConfig } from "@/config";
+import { profileConfig, siteConfig, umamiConfig } from "@/config";
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 import {
 	AUTO_MODE,
@@ -79,6 +79,16 @@ const bannerOffsetByPosition = {
 };
 const bannerOffset =
 	bannerOffsetByPosition[siteConfig.banner.position || "center"];
+const siteUrl = Astro.site ? new URL(Astro.site) : Astro.url;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const organizationSameAs =
+	siteConfig.officialSites
+		?.map((item) => (typeof item === "string" ? item : item.url))
+		.filter(Boolean) || [];
+const enableUmamiScript =
+	umamiConfig.enable &&
+	typeof umamiConfig.websiteId === "string" &&
+	umamiConfig.websiteId.trim().length > 0;
 ---
 
 <!DOCTYPE html>
@@ -114,27 +124,21 @@ const bannerOffset =
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
         
-        <!-- Standardize authority source to main site -->
-        <link rel="canonical" href={`https://www.twinsglow.com${Astro.url.pathname}`} />
+        <link rel="canonical" href={canonicalUrl} />
         
-        <!-- Organization Schema to bind domains -->
         <script type="application/ld+json" set:html={JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "TwinsGlow",
-            "url": "https://www.twinsglow.com",
-            "logo": "https://www.twinsglow.com/favicon.ico",
-            "sameAs": [
-                "https://ccjmcc.github.io",
-                "https://ccjmcc.xyz",
-                "https://www.twinsglow.com"
-            ]
+            "name": siteConfig.title,
+            "url": siteUrl.origin,
+            "logo": `${siteUrl.origin}/favicon.ico`,
+            "sameAs": organizationSameAs,
         })} />
 
         <link rel="preconnect" href="https://pic1.acofork.com" />
-        <link rel="preconnect" href="https://umami.acofork.com" />
+        {umamiConfig.enable && <link rel="preconnect" href={umamiConfig.baseUrl} />}
 		
-		<script src="/js/umami-share.js" defer></script>
+		{umamiConfig.enable && <script src="/js/umami-share.js" defer></script>}
 		<script data-swup-ignore-script src="https://pic1.acofork.com/random.js" defer></script>
 		
 		
@@ -247,7 +251,7 @@ const bannerOffset =
 
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 		<!-- Umami分析（自建） -->
-		<script defer src="https://umami.acofork.com/script.js" data-website-id="5d710dbd-3a2e-43e3-a553-97b415090c63" data-swup-ignore-script></script>
+		{enableUmamiScript && <script defer src={`${umamiConfig.baseUrl}/script.js`} data-website-id={umamiConfig.websiteId} data-swup-ignore-script></script>}
 
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
@@ -661,3 +665,4 @@ if (window.swup) {
     </filter>
   </defs>
 </svg>
+
