@@ -241,6 +241,25 @@ const rssUrl = new URL(url("/rss.xml"), siteUrl).href;
 				firstScript?.parentNode?.insertBefore(hm, firstScript);
 			}
 		</script>
+		<link rel="preconnect" href="https://www.googletagmanager.com" />
+		<link rel="preconnect" href="https://www.google-analytics.com" />
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=G-JMR1829FGT"
+			data-swup-ignore-script
+		></script>
+		<script is:inline data-swup-ignore-script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			window.gtag = window.gtag || gtag;
+			if (!window.__ga4Initialized) {
+				window.gtag("js", new Date());
+				window.gtag("config", "G-JMR1829FGT");
+				window.__ga4Initialized = true;
+			}
+		</script>
 
 		{umamiConfig.enable && <link rel="preconnect" href={umamiConfig.baseUrl} />}
 		
