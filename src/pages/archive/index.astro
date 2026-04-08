@@ -1,9 +1,61 @@
-﻿---
+---
 import ArchivePanel from "@components/ArchivePanel.astro";
-
+import { siteConfig } from "@/config";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { url } from "@/utils/url-utils";
+
+const archiveDescription = "按时间归档浏览全部技术文章、实践记录与折腾笔记。";
+const archiveUrl = Astro.site
+	? new URL(url("/archive/"), Astro.site).href
+	: url("/archive/");
+const siteHomeUrl = Astro.site ? new URL(url("/"), Astro.site).href : url("/");
+const siteLanguage = siteConfig.lang.replace(/_/g, "-");
+const websiteId = Astro.site ? `${new URL(Astro.site).origin}#website` : undefined;
+const archiveJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	name: `归档 - ${siteConfig.title}`,
+	description: archiveDescription,
+	url: archiveUrl,
+	inLanguage: siteLanguage,
+	isPartOf: websiteId
+		? {
+				"@id": websiteId,
+			}
+		: undefined,
+};
+const breadcrumbJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: siteConfig.title,
+			item: siteHomeUrl,
+		},
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "归档",
+			item: archiveUrl,
+		},
+	],
+};
 ---
 
-<MainGridLayout title="归档">
+<MainGridLayout title="归档" description={archiveDescription}>
+	<script
+		is:inline
+		slot="head"
+		type="application/ld+json"
+		set:html={JSON.stringify(archiveJsonLd)}
+	></script>
+	<script
+		is:inline
+		slot="head"
+		type="application/ld+json"
+		set:html={JSON.stringify(breadcrumbJsonLd)}
+	></script>
 	<ArchivePanel></ArchivePanel>
 </MainGridLayout>

@@ -2,9 +2,11 @@
 import type { GetStaticPaths } from "astro";
 import PostPage from "../components/PostPage.astro";
 import Pagination from "../components/control/Pagination.astro";
+import { siteConfig } from "../config";
 import { PAGE_SIZE } from "../constants/constants";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getSortedPosts } from "../utils/content-utils";
+import { getPostUrlBySlug, url } from "../utils/url-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const allBlogPosts = await getSortedPosts();
@@ -15,9 +17,89 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page } = Astro.props;
 
 const len = page.data.length;
+const pageTitle = page.currentPage === 1 ? undefined : `第 ${page.currentPage} 页`;
+const pageDisplayTitle =
+	page.currentPage === 1 ? siteConfig.title : `${siteConfig.title} - 第 ${page.currentPage} 页`;
+const pageDescription =
+	page.currentPage === 1
+		? siteConfig.description
+		: `第 ${page.currentPage} 页，继续浏览 ${siteConfig.title} 的技术分享、实践记录与折腾笔记。`;
+const siteLanguage = siteConfig.lang.replace(/_/g, "-");
+const pageUrl = Astro.site
+	? new URL(page.url.current, Astro.site).href
+	: page.url.current;
+const siteHomeUrl = Astro.site ? new URL(url("/"), Astro.site).href : url("/");
+const websiteId = Astro.site ? `${new URL(Astro.site).origin}#website` : undefined;
+const collectionJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	name: pageDisplayTitle,
+	description: pageDescription,
+	url: pageUrl,
+	inLanguage: siteLanguage,
+	isPartOf: websiteId
+		? {
+				"@id": websiteId,
+			}
+		: undefined,
+	mainEntity: {
+		"@type": "ItemList",
+		itemListOrder: "https://schema.org/ItemListOrderDescending",
+		numberOfItems: page.data.length,
+		itemListElement: page.data.map((entry, index) => ({
+			"@type": "ListItem",
+			position: index + 1,
+			name: entry.data.title,
+			url: Astro.site
+				? new URL(getPostUrlBySlug(entry.slug), Astro.site).href
+				: getPostUrlBySlug(entry.slug),
+		})),
+	},
+};
+const breadcrumbJsonLd =
+	page.currentPage > 1
+		? {
+				"@context": "https://schema.org",
+				"@type": "BreadcrumbList",
+				itemListElement: [
+					{
+						"@type": "ListItem",
+						position: 1,
+						name: siteConfig.title,
+						item: siteHomeUrl,
+					},
+					{
+						"@type": "ListItem",
+						position: 2,
+						name: `第 ${page.currentPage} 页`,
+						item: pageUrl,
+					},
+				],
+			}
+		: undefined;
 ---
 
-<MainGridLayout title={page.currentPage === 1 ? undefined : `第 ${page.currentPage} 页`}>
-    <PostPage page={page}></PostPage>
-    <Pagination class="mx-auto onload-animation" page={page} style=`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`></Pagination>
+<MainGridLayout title={pageTitle} description={pageDescription}>
+	<script
+		is:inline
+		slot="head"
+		type="application/ld+json"
+		set:html={JSON.stringify(collectionJsonLd)}
+	></script>
+	{breadcrumbJsonLd && (
+		<script
+			is:inline
+			slot="head"
+			type="application/ld+json"
+			set:html={JSON.stringify(breadcrumbJsonLd)}
+		></script>
+	)}
+	{page.url.prev && <link slot="head" rel="prev" href={page.url.prev} />}
+	{page.url.next && <link slot="head" rel="next" href={page.url.next} />}
+	<PostPage page={page}></PostPage>
+	<Pagination
+		class="mx-auto onload-animation"
+		page={page}
+		style={`animation-delay: calc(var(--content-delay) + ${len * 50}ms)`}
+	></Pagination>
 </MainGridLayout>
