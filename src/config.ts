@@ -50,7 +50,7 @@ export const siteConfig: SiteConfig = {
 			src: "https://q2.qlogo.cn/headimg_dl?dst_uin=2726730791&spec=0",
 		},
 	],
-	officialSites: [{ url: "https://ccjm.dpdns.org/", alias: "Main" }],
+	officialSites: [{ url: "https://www.ccjmcc.xyz/", alias: "Main" }],
 };
 
 export const navBarConfig: NavBarConfig = {

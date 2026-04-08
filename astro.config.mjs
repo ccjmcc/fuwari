@@ -33,7 +33,7 @@ export default defineConfig({
 	image: {
 		service: passthroughImageService(),
 	},
-	site: "https://ccjm.dpdns.org/",
+	site: "https://www.ccjmcc.xyz/",
 	base: "/",
 	trailingSlash: "always",
 	output: "static",
