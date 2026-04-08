@@ -226,9 +226,23 @@ const rssUrl = new URL(url("/rss.xml"), siteUrl).href;
         <link rel="canonical" href={canonicalUrl} />
         <link rel="alternate" hrefLang={siteLang} href={canonicalUrl} />
         
-        <script type="application/ld+json" set:html={JSON.stringify(jsonLdEntities)} />
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLdEntities)} />
 
-        {umamiConfig.enable && <link rel="preconnect" href={umamiConfig.baseUrl} />}
+		<link rel="preconnect" href="https://hm.baidu.com" />
+		<script is:inline data-swup-ignore-script>
+			window._hmt = window._hmt || [];
+			if (!document.querySelector('script[data-baidu-analytics="true"]')) {
+				const hm = document.createElement("script");
+				hm.src =
+					"https://hm.baidu.com/hm.js?6286d8953cf82b4af91a838945a51587";
+				hm.async = true;
+				hm.dataset.baiduAnalytics = "true";
+				const firstScript = document.getElementsByTagName("script")[0];
+				firstScript?.parentNode?.insertBefore(hm, firstScript);
+			}
+		</script>
+
+		{umamiConfig.enable && <link rel="preconnect" href={umamiConfig.baseUrl} />}
 		
 		{umamiConfig.enable && <script src="/js/umami-share.js" defer></script>}
 		
