@@ -173,12 +173,8 @@ const rssUrl = new URL(url("/rss.xml"), siteUrl).href;
 
 	<head>
 		<!-- Google tag (gtag.js) -->
-		<script
-			async
-			src="https://www.googletagmanager.com/gtag/js?id=G-JMR1829FGT"
-			data-swup-ignore-script
-		></script>
-		<script is:inline data-swup-ignore-script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JMR1829FGT"></script>
+		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
 			function gtag() {
 				dataLayer.push(arguments);
