@@ -40,5 +40,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: page
-          cname: blog.acofork.com
+          cname: www.ccjmcc.xyz
           commit_message: ${{ github.event.head_commit.message }}
