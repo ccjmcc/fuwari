@@ -48,12 +48,21 @@ if (!fs.existsSync(dirPath)) {
 const content = `---
 title: ${args[0]}
 published: ${getDate()}
-description: ''
+updated: ${getDate()}
+description: '一句话概括这篇文章（建议 60-120 字）'
 image: ''
-
-draft: false 
-lang: ''
+tags: []
+draft: true
+lang: 'zh_CN'
 ---
+
+## 前言
+
+这篇文章主要讲什么、适合谁看、能解决什么问题。
+
+## 正文
+
+在这里开始写你的内容。
 `;
 
 fs.writeFileSync(path.join(targetDir, fileName), content);
