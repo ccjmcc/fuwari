@@ -57,6 +57,7 @@ export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
 		LinkPreset.Archive,
+		LinkPreset.Memory,
 		{
 			name: "赞助",
 			url: "/sponsors/",

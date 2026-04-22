@@ -1,0 +1,805 @@
+---
+import path from "node:path";
+import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { getDir, getPostUrlBySlug, url } from "../utils/url-utils";
+import ImageWrapper from "./misc/ImageWrapper.astro";
+
+interface Props {
+	entries: CollectionEntry<"posts">[];
+}
+
+const { entries } = Astro.props;
+
+const memoryEntries = await Promise.all(
+	entries.map(async (entry) => {
+		const { remarkPluginFrontmatter } = await entry.render();
+		const excerpt =
+			entry.data.description.trim() ||
+			remarkPluginFrontmatter?.excerpt?.trim() ||
+			"Read the full post for the complete write-up.";
+
+		return {
+			id: entry.slug,
+			entry,
+			title: entry.data.title,
+			url: getPostUrlBySlug(entry.slug),
+			published: entry.data.published,
+			year: entry.data.published.getFullYear(),
+			monthDay: `${(entry.data.published.getMonth() + 1).toString().padStart(2, "0")}-${entry.data.published
+				.getDate()
+				.toString()
+				.padStart(2, "0")}`,
+			publishedLabel: entry.data.published.toISOString().substring(0, 10),
+			description: excerpt.replace(/\s+/g, " ").trim(),
+			image: entry.data.image,
+			pinned: entry.data.pinned === true,
+			tags: entry.data.tags ?? [],
+			words: remarkPluginFrontmatter?.words ?? 0,
+			minutes: remarkPluginFrontmatter?.minutes ?? 0,
+			basePath: path.join("content/posts/", getDir(entry.id)),
+		};
+	}),
+);
+
+const uniqueTags = Array.from(
+	new Set(memoryEntries.flatMap((entry) => entry.tags)),
+);
+const visibleTags = uniqueTags.slice(0, 6);
+const pinnedCount = memoryEntries.filter((entry) => entry.pinned).length;
+const activeYears = new Set(memoryEntries.map((entry) => entry.year)).size;
+const latestUpdate = memoryEntries[0]?.publishedLabel ?? "--";
+
+const groupedEntries = Array.from(
+	memoryEntries.reduce((groups, entry) => {
+		const current = groups.get(entry.year) ?? [];
+		current.push(entry);
+		groups.set(entry.year, current);
+		return groups;
+	}, new Map<number, typeof memoryEntries>()),
+).map(([year, items]) => ({
+	year,
+	items,
+}));
+
+const stats = [
+	{ label: "Posts", value: memoryEntries.length.toString() },
+	{ label: "Tags", value: uniqueTags.length.toString() },
+	{ label: "Years", value: activeYears.toString() },
+	{ label: "Updated", value: latestUpdate },
+];
+---
+
+<section class="memory-shell card-base">
+	<div class="memory-hero">
+		<div class="memory-copy">
+			<div class="memory-kicker">Memory</div>
+			<h1 class="memory-title">A lighter timeline for posts, tags, and cover art</h1>
+			<p class="memory-subtitle">
+				This page turns long-form writing into smaller moments, so browsing feels closer to scanning notes than opening a directory.
+			</p>
+			<div class="memory-actions">
+				<a class="memory-action-btn" href={url("/archive/")}>
+					<Icon name="fa6-solid:box-archive" class="text-[1rem]" />
+					<span>Archive</span>
+				</a>
+				<a class="memory-action-btn" href={url("/rss.xml")}>
+					<Icon name="fa6-solid:rss" class="text-[1rem]" />
+					<span>RSS</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="memory-stats">
+			{stats.map((item) => (
+				<div class="memory-stat">
+					<div class="memory-stat-label">{item.label}</div>
+					<div class="memory-stat-value">{item.value}</div>
+				</div>
+			))}
+		</div>
+	</div>
+
+		<div class="memory-toolbar" data-memory-root>
+		<div class="memory-toolbar-row">
+			<div class="memory-toolbar-label">
+				<Icon name="fa6-solid:sliders" class="text-[0.9rem]" />
+				<span>Browse</span>
+			</div>
+			<div class="memory-filters">
+				<button class="memory-chip is-active" type="button" data-memory-filter="__all">
+					All
+				</button>
+				{pinnedCount > 0 && (
+					<button class="memory-chip" type="button" data-memory-filter="__pinned">
+						Pinned
+					</button>
+				)}
+				{visibleTags.map((tag) => (
+					<button class="memory-chip" type="button" data-memory-filter={tag}>
+						#{tag}
+					</button>
+				))}
+			</div>
+		</div>
+		<div class="memory-visible">
+			<span id="memory-visible-count">{memoryEntries.length}</span>
+			<span>visible</span>
+		</div>
+	</div>
+
+	{memoryEntries.length > 0 ? (
+		<div class="memory-stream">
+			{groupedEntries.map((group) => (
+				<section class="memory-year-group" data-memory-group>
+					<div class="memory-year-label">
+						<div class="memory-year-number">{group.year}</div>
+						<div class="memory-year-count">{group.items.length} entries</div>
+					</div>
+
+					<div class="memory-list">
+						{group.items.map((item) => (
+							<article
+								class="memory-card"
+								data-memory-card
+								data-pinned={item.pinned ? "true" : "false"}
+								data-tags={JSON.stringify(item.tags)}
+							>
+								<div class="memory-rail">
+									<div class="memory-day">{item.monthDay}</div>
+									<div class="memory-dot"></div>
+								</div>
+
+								<div class="memory-card-body">
+									<div class="memory-badges">
+										{item.pinned && (
+											<span class="memory-badge memory-badge-accent">Pinned</span>
+										)}
+										{item.tags.slice(0, 3).map((tag) => (
+											<span class="memory-badge">#{tag}</span>
+										))}
+									</div>
+
+									<div class:list={["memory-card-main", { "has-cover": !!item.image }]}>
+										<div class="memory-card-copy">
+											<a class="memory-card-title" href={item.url}>
+												{item.title}
+											</a>
+											<p class="memory-card-excerpt">{item.description}</p>
+
+											<div class="memory-card-meta">
+												<span>{item.publishedLabel}</span>
+												<span>{item.words} words</span>
+												<span>{item.minutes} min</span>
+											</div>
+
+											<a class="memory-read-link" href={item.url}>
+												<span>Read post</span>
+												<Icon
+													name="fa6-solid:arrow-up-right-from-square"
+													class="text-[0.9rem]"
+												/>
+											</a>
+										</div>
+
+										{item.image && (
+											<a class="memory-cover" href={item.url} aria-label={item.title}>
+												<ImageWrapper
+													src={item.image}
+													basePath={item.basePath}
+													alt={`Cover image of ${item.title}`}
+													class="memory-cover-image"
+												/>
+											</a>
+										)}
+									</div>
+								</div>
+							</article>
+						))}
+					</div>
+				</section>
+			))}
+		</div>
+	) : (
+		<div class="memory-empty">
+			<Icon name="fa6-solid:sparkles" class="text-[2rem]" />
+			<div class="memory-empty-title">Memory stream is empty</div>
+			<p class="memory-empty-copy">
+				Create your first post, then this page will automatically turn it into a new time slice.
+			</p>
+		</div>
+	)}
+</section>
+
+<script>
+	function setupMemoryFilters() {
+		const root = document.querySelector("[data-memory-root]");
+		if (!root) return;
+
+		const buttons = Array.from(
+			root.querySelectorAll("[data-memory-filter]"),
+		) as HTMLButtonElement[];
+		const cards = Array.from(
+			document.querySelectorAll("[data-memory-card]"),
+		) as HTMLElement[];
+		const groups = Array.from(
+			document.querySelectorAll("[data-memory-group]"),
+		) as HTMLElement[];
+		const counter = document.getElementById("memory-visible-count");
+
+		const applyFilter = (filter: string) => {
+			let visibleCount = 0;
+
+			for (const card of cards) {
+				const tags = JSON.parse(card.dataset.tags ?? "[]") as string[];
+				const pinned = card.dataset.pinned === "true";
+				const matched =
+					filter === "__all" ||
+					(filter === "__pinned" && pinned) ||
+					tags.includes(filter);
+
+				card.classList.toggle("memory-card-hidden", !matched);
+				if (matched) visibleCount += 1;
+			}
+
+			for (const group of groups) {
+				const hasVisibleCard = group.querySelector(
+					"[data-memory-card]:not(.memory-card-hidden)",
+				);
+				group.classList.toggle("memory-group-hidden", !hasVisibleCard);
+			}
+
+			if (counter) {
+				counter.textContent = String(visibleCount);
+			}
+
+			for (const button of buttons) {
+				button.classList.toggle(
+					"is-active",
+					button.dataset.memoryFilter === filter,
+				);
+			}
+		};
+
+		for (const button of buttons) {
+			if (button.dataset.memoryBound === "true") continue;
+			button.dataset.memoryBound = "true";
+			button.addEventListener("click", () => {
+				applyFilter(button.dataset.memoryFilter ?? "__all");
+			});
+		}
+
+		const current =
+			root.querySelector<HTMLButtonElement>("[data-memory-filter].is-active");
+		applyFilter(current?.dataset.memoryFilter ?? "__all");
+	}
+
+	document.addEventListener("DOMContentLoaded", setupMemoryFilters);
+	document.addEventListener("swup:contentReplaced", setupMemoryFilters);
+</script>
+
+<style>
+	.memory-shell {
+		position: relative;
+		overflow: hidden;
+		border: 1px solid color-mix(in oklch, var(--primary) 16%, transparent);
+		background:
+			radial-gradient(circle at top right, color-mix(in oklch, var(--primary) 18%, transparent) 0, transparent 38%),
+			linear-gradient(180deg, color-mix(in srgb, var(--card-bg) 98%, white 2%), var(--card-bg));
+	}
+
+	.memory-shell::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background:
+			linear-gradient(120deg, transparent 0%, color-mix(in oklch, var(--primary) 8%, transparent) 42%, transparent 100%);
+		opacity: 0.9;
+	}
+
+	.memory-hero,
+	.memory-toolbar,
+	.memory-stream,
+	.memory-empty {
+		position: relative;
+		z-index: 1;
+	}
+
+	.memory-hero {
+		display: grid;
+		gap: 1.5rem;
+		padding: 1.75rem;
+		border-bottom: 1px solid color-mix(in srgb, var(--primary) 12%, transparent);
+	}
+
+	.memory-copy {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.memory-kicker {
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.28em;
+		text-transform: uppercase;
+		color: var(--primary);
+	}
+
+	.memory-title {
+		margin: 0;
+		font-size: clamp(2rem, 4vw, 3.25rem);
+		line-height: 1.05;
+		font-weight: 800;
+		color: rgb(15 23 42 / 0.92);
+	}
+
+	:global(.dark) .memory-title {
+		color: rgb(241 245 249 / 0.94);
+	}
+
+	.memory-subtitle {
+		margin: 0;
+		max-width: 44rem;
+		font-size: 0.98rem;
+		line-height: 1.8;
+		color: rgb(15 23 42 / 0.66);
+	}
+
+	:global(.dark) .memory-subtitle {
+		color: rgb(226 232 240 / 0.7);
+	}
+
+	.memory-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.memory-action-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		border-radius: 999px;
+		padding: 0.75rem 1rem;
+		font-size: 0.92rem;
+		font-weight: 600;
+		color: var(--primary);
+		background: color-mix(in srgb, var(--btn-regular-bg) 82%, transparent);
+		border: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
+		transition:
+			transform 180ms ease,
+			border-color 180ms ease,
+			background 180ms ease;
+	}
+
+	.memory-action-btn:hover {
+		transform: translateY(-1px);
+		border-color: color-mix(in srgb, var(--primary) 24%, transparent);
+		background: color-mix(in srgb, var(--btn-regular-bg-hover) 88%, transparent);
+	}
+
+	.memory-stats {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.75rem;
+	}
+
+	.memory-stat {
+		padding: 0.95rem 1rem;
+		border-radius: 1.1rem;
+		border: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
+		background: color-mix(in srgb, var(--card-bg-transparent) 92%, transparent);
+		backdrop-filter: blur(14px);
+	}
+
+	.memory-stat-label {
+		font-size: 0.74rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: rgb(15 23 42 / 0.48);
+	}
+
+	:global(.dark) .memory-stat-label {
+		color: rgb(226 232 240 / 0.5);
+	}
+
+	.memory-stat-value {
+		margin-top: 0.35rem;
+		font-size: 1.15rem;
+		font-weight: 700;
+		color: rgb(15 23 42 / 0.88);
+		word-break: break-word;
+	}
+
+	:global(.dark) .memory-stat-value {
+		color: rgb(241 245 249 / 0.92);
+	}
+
+	.memory-toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.9rem;
+		padding: 1rem 1.75rem 1.25rem;
+	}
+
+	.memory-toolbar-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.8rem;
+	}
+
+	.memory-toolbar-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: rgb(15 23 42 / 0.55);
+	}
+
+	:global(.dark) .memory-toolbar-label {
+		color: rgb(226 232 240 / 0.58);
+	}
+
+	.memory-filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+	}
+
+	.memory-chip {
+		border: 1px solid transparent;
+		border-radius: 999px;
+		padding: 0.42rem 0.82rem;
+		font-size: 0.84rem;
+		font-weight: 600;
+		color: rgb(15 23 42 / 0.72);
+		background: color-mix(in srgb, var(--btn-plain-bg-hover) 88%, transparent);
+		transition:
+			transform 180ms ease,
+			background 180ms ease,
+			border-color 180ms ease,
+			color 180ms ease;
+	}
+
+	.memory-chip:hover {
+		transform: translateY(-1px);
+		border-color: color-mix(in srgb, var(--primary) 18%, transparent);
+	}
+
+	.memory-chip.is-active {
+		color: white;
+		background: var(--primary);
+		box-shadow: 0 14px 32px color-mix(in srgb, var(--primary) 22%, transparent);
+	}
+
+	.memory-visible {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-size: 0.82rem;
+		color: rgb(15 23 42 / 0.52);
+	}
+
+	:global(.dark) .memory-visible {
+		color: rgb(226 232 240 / 0.55);
+	}
+
+	.memory-visible span:first-child {
+		font-weight: 700;
+		color: var(--primary);
+	}
+
+	.memory-stream {
+		display: grid;
+		gap: 1.5rem;
+		padding: 0 1rem 1.25rem;
+	}
+
+	.memory-year-group {
+		display: grid;
+		gap: 0.85rem;
+	}
+
+	.memory-year-label {
+		display: flex;
+		align-items: baseline;
+		gap: 0.75rem;
+		padding: 0 0.75rem;
+	}
+
+	.memory-year-number {
+		font-size: 1.9rem;
+		line-height: 1;
+		font-weight: 800;
+		color: var(--primary);
+	}
+
+	.memory-year-count {
+		font-size: 0.78rem;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: rgb(15 23 42 / 0.46);
+	}
+
+	:global(.dark) .memory-year-count {
+		color: rgb(226 232 240 / 0.48);
+	}
+
+	.memory-list {
+		position: relative;
+		display: grid;
+		gap: 0.9rem;
+	}
+
+	.memory-list::before {
+		content: "";
+		position: absolute;
+		left: 3.2rem;
+		top: 0.6rem;
+		bottom: 0.6rem;
+		width: 1px;
+		background: linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--primary) 55%, transparent) 0%,
+			color-mix(in srgb, var(--primary) 12%, transparent) 100%
+		);
+	}
+
+	.memory-card {
+		display: grid;
+		grid-template-columns: 3rem minmax(0, 1fr);
+		align-items: start;
+		gap: 0.9rem;
+		transition:
+			opacity 180ms ease,
+			transform 180ms ease,
+			max-height 180ms ease,
+			margin 180ms ease,
+			padding 180ms ease;
+	}
+
+	.memory-rail {
+		position: relative;
+		padding-top: 0.45rem;
+		text-align: right;
+	}
+
+	.memory-day {
+		font-size: 0.76rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		color: rgb(15 23 42 / 0.46);
+	}
+
+	:global(.dark) .memory-day {
+		color: rgb(226 232 240 / 0.48);
+	}
+
+	.memory-dot {
+		position: absolute;
+		top: 0.55rem;
+		right: -0.62rem;
+		width: 0.9rem;
+		height: 0.9rem;
+		border-radius: 999px;
+		background: var(--primary);
+		box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--card-bg) 98%, transparent);
+	}
+
+	.memory-card-body {
+		display: grid;
+		gap: 0.85rem;
+		padding: 1rem;
+		border-radius: 1.25rem;
+		border: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
+		background: color-mix(in srgb, var(--card-bg-transparent) 96%, transparent);
+		backdrop-filter: blur(18px);
+		box-shadow: 0 18px 40px rgb(15 23 42 / 0.04);
+		transition:
+			transform 180ms ease,
+			border-color 180ms ease,
+			box-shadow 180ms ease;
+	}
+
+	.memory-card-body:hover {
+		transform: translateY(-2px);
+		border-color: color-mix(in srgb, var(--primary) 22%, transparent);
+		box-shadow: 0 26px 48px rgb(15 23 42 / 0.08);
+	}
+
+	.memory-badges {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+	}
+
+	.memory-badge {
+		display: inline-flex;
+		align-items: center;
+		border-radius: 999px;
+		padding: 0.22rem 0.6rem;
+		font-size: 0.76rem;
+		font-weight: 600;
+		color: var(--btn-content);
+		background: var(--btn-regular-bg);
+	}
+
+	.memory-badge-accent {
+		color: var(--primary);
+		background: color-mix(in srgb, var(--primary) 12%, var(--btn-regular-bg));
+	}
+
+	.memory-card-main {
+		display: grid;
+		gap: 0.95rem;
+	}
+
+	.memory-card-copy {
+		display: grid;
+		gap: 0.7rem;
+		align-content: start;
+	}
+
+	.memory-card-title {
+		font-size: 1.18rem;
+		line-height: 1.35;
+		font-weight: 700;
+		color: rgb(15 23 42 / 0.9);
+		transition: color 180ms ease;
+	}
+
+	.memory-card-title:hover {
+		color: var(--primary);
+	}
+
+	:global(.dark) .memory-card-title {
+		color: rgb(241 245 249 / 0.94);
+	}
+
+	.memory-card-excerpt {
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.75;
+		color: rgb(15 23 42 / 0.68);
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+	}
+
+	:global(.dark) .memory-card-excerpt {
+		color: rgb(226 232 240 / 0.72);
+	}
+
+	.memory-card-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		font-size: 0.82rem;
+		color: rgb(15 23 42 / 0.48);
+	}
+
+	:global(.dark) .memory-card-meta {
+		color: rgb(226 232 240 / 0.52);
+	}
+
+	.memory-read-link {
+		display: inline-flex;
+		width: fit-content;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.88rem;
+		font-weight: 700;
+		color: var(--primary);
+	}
+
+	.memory-cover {
+		display: block;
+		min-height: 10rem;
+		border-radius: 1rem;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
+	}
+
+	.memory-cover-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.memory-card-hidden {
+		margin: 0;
+		padding: 0;
+		max-height: 0;
+		opacity: 0;
+		transform: translateY(6px);
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.memory-group-hidden {
+		display: none;
+	}
+
+	.memory-empty {
+		display: grid;
+		justify-items: center;
+		gap: 0.85rem;
+		padding: 3rem 1.5rem;
+		text-align: center;
+		color: rgb(15 23 42 / 0.64);
+	}
+
+	:global(.dark) .memory-empty {
+		color: rgb(226 232 240 / 0.68);
+	}
+
+	.memory-empty-title {
+		font-size: 1.1rem;
+		font-weight: 700;
+	}
+
+	.memory-empty-copy {
+		margin: 0;
+		max-width: 28rem;
+		line-height: 1.7;
+	}
+
+	@media (min-width: 768px) {
+		.memory-hero {
+			grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.95fr);
+			align-items: end;
+		}
+
+		.memory-stream {
+			padding: 0 1.5rem 1.5rem;
+		}
+
+		.memory-year-group {
+			grid-template-columns: 5.5rem minmax(0, 1fr);
+		}
+
+		.memory-year-label {
+			display: grid;
+			gap: 0.35rem;
+			align-content: start;
+			padding: 0.5rem 0 0 0.25rem;
+		}
+
+		.memory-list::before {
+			left: 4.55rem;
+		}
+
+		.memory-card {
+			grid-template-columns: 4.3rem minmax(0, 1fr);
+		}
+
+		.memory-dot {
+			right: -0.74rem;
+		}
+
+		.memory-card-main.has-cover {
+			grid-template-columns: minmax(0, 1fr) 13rem;
+			align-items: center;
+		}
+	}
+
+	@media (max-width: 767px) {
+		.memory-toolbar {
+			padding-top: 0.5rem;
+		}
+
+		.memory-visible {
+			width: 100%;
+			justify-content: flex-end;
+		}
+	}
+</style>
