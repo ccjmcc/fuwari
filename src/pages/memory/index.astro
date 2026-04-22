@@ -1,15 +1,22 @@
 ---
 import MemoryPanel from "@/components/MemoryPanel.astro";
-import { siteConfig } from "@/config";
+import { memosConfig, siteConfig } from "@/config";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@/utils/content-utils";
+import {
+	fetchMemosAsMemoryEntries,
+	mapPostsToMemoryEntries,
+} from "@/utils/memory-utils";
 import { url } from "@/utils/url-utils";
 
-const posts = [...(await getSortedPosts())].sort(
-	(a, b) => b.data.published.getTime() - a.data.published.getTime(),
-);
-const description =
-	"Turn site posts into a lighter timeline for quick browsing by time and tag.";
+const posts = await getSortedPosts();
+const postEntries = await mapPostsToMemoryEntries(posts);
+const memoEntries = await fetchMemosAsMemoryEntries();
+const usingMemos = memoEntries.length > 0;
+const memoryEntries = usingMemos ? memoEntries : postEntries;
+const description = usingMemos
+	? "Public memos rendered into static HTML for fast browsing and better indexing."
+	: "Turn site posts into a lighter timeline for quick browsing by time and tag.";
 const memoryUrl = Astro.site
 	? new URL(url("/memory/"), Astro.site).href
 	: url("/memory/");
@@ -32,14 +39,14 @@ const memoryJsonLd = {
 	mainEntity: {
 		"@type": "ItemList",
 		itemListOrder: "https://schema.org/ItemListOrderDescending",
-		numberOfItems: posts.length,
-		itemListElement: posts.map((entry, index) => ({
+		numberOfItems: memoryEntries.length,
+		itemListElement: memoryEntries.map((entry, index) => ({
 			"@type": "ListItem",
 			position: index + 1,
-			name: entry.data.title,
+			name: entry.title,
 			url: Astro.site
-				? new URL(url(`/posts/${entry.slug}/`), Astro.site).href
-				: url(`/posts/${entry.slug}/`),
+				? new URL(entry.permalink, Astro.site).href
+				: entry.permalink,
 		})),
 	},
 };
@@ -78,5 +85,9 @@ const breadcrumbJsonLd = {
 		set:html={JSON.stringify(breadcrumbJsonLd)}
 	></script>
 
-	<MemoryPanel entries={posts} />
+	<MemoryPanel
+		items={memoryEntries}
+		usingMemos={usingMemos}
+		memosHomeUrl={memosConfig.baseUrl}
+	/>
 </MainGridLayout>

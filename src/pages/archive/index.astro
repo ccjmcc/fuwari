@@ -4,7 +4,7 @@ import { siteConfig } from "@/config";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { url } from "@/utils/url-utils";
 
-const archiveDescription = "按时间归档浏览全部技术文章、实践记录与折腾笔记。";
+const archiveDescription = "Browse all posts in chronological order.";
 const archiveUrl = Astro.site
 	? new URL(url("/archive/"), Astro.site).href
 	: url("/archive/");
@@ -14,7 +14,7 @@ const websiteId = Astro.site ? `${new URL(Astro.site).origin}#website` : undefin
 const archiveJsonLd = {
 	"@context": "https://schema.org",
 	"@type": "CollectionPage",
-	name: `归档 - ${siteConfig.title}`,
+	name: `Archive - ${siteConfig.title}`,
 	description: archiveDescription,
 	url: archiveUrl,
 	inLanguage: siteLanguage,
@@ -37,14 +37,14 @@ const breadcrumbJsonLd = {
 		{
 			"@type": "ListItem",
 			position: 2,
-			name: "归档",
+			name: "Archive",
 			item: archiveUrl,
 		},
 	],
 };
 ---
 
-<MainGridLayout title="归档" description={archiveDescription}>
+<MainGridLayout title="Archive" description={archiveDescription}>
 	<script
 		is:inline
 		slot="head"

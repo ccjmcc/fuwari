@@ -12,18 +12,19 @@ export const getStaticPaths = (async ({ paginate }) => {
 	const allBlogPosts = await getSortedPosts();
 	return paginate(allBlogPosts, { pageSize: PAGE_SIZE });
 }) satisfies GetStaticPaths;
-// https://github.com/withastro/astro/issues/6507#issuecomment-1489916992
 
 const { page } = Astro.props;
 
 const len = page.data.length;
-const pageTitle = page.currentPage === 1 ? undefined : `第 ${page.currentPage} 页`;
+const pageTitle = page.currentPage === 1 ? undefined : `Page ${page.currentPage}`;
 const pageDisplayTitle =
-	page.currentPage === 1 ? siteConfig.title : `${siteConfig.title} - 第 ${page.currentPage} 页`;
+	page.currentPage === 1
+		? siteConfig.title
+		: `${siteConfig.title} - Page ${page.currentPage}`;
 const pageDescription =
 	page.currentPage === 1
 		? siteConfig.description
-		: `第 ${page.currentPage} 页，继续浏览 ${siteConfig.title} 的技术分享、实践记录与折腾笔记。`;
+		: `Page ${page.currentPage} of ${siteConfig.title}, continue browsing posts and notes.`;
 const siteLanguage = siteConfig.lang.replace(/_/g, "-");
 const pageUrl = Astro.site
 	? new URL(page.url.current, Astro.site).href
@@ -71,7 +72,7 @@ const breadcrumbJsonLd =
 					{
 						"@type": "ListItem",
 						position: 2,
-						name: `第 ${page.currentPage} 页`,
+						name: `Page ${page.currentPage}`,
 						item: pageUrl,
 					},
 				],

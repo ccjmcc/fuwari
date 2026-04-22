@@ -98,6 +98,12 @@ export type UmamiConfig = {
 	timezone: string;
 };
 
+export type MemosConfig = {
+	enable: boolean;
+	baseUrl: string;
+	pageSize: number;
+};
+
 export type LIGHT_DARK_MODE =
 	| typeof LIGHT_MODE
 	| typeof DARK_MODE

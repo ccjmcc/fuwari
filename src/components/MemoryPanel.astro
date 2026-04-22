@@ -1,84 +1,67 @@
 ---
-import path from "node:path";
-import type { CollectionEntry } from "astro:content";
+import type { MemoryEntry } from "../types/data";
 import { Icon } from "astro-icon/components";
-import { getDir, getPostUrlBySlug, url } from "../utils/url-utils";
+import { url } from "../utils/url-utils";
 import ImageWrapper from "./misc/ImageWrapper.astro";
 
 interface Props {
-	entries: CollectionEntry<"posts">[];
+	items: MemoryEntry[];
+	usingMemos?: boolean;
+	memosHomeUrl?: string;
 }
 
-const { entries } = Astro.props;
+const {
+	items,
+	usingMemos = false,
+	memosHomeUrl = "",
+} = Astro.props as Props;
 
-const memoryEntries = await Promise.all(
-	entries.map(async (entry) => {
-		const { remarkPluginFrontmatter } = await entry.render();
-		const excerpt =
-			entry.data.description.trim() ||
-			remarkPluginFrontmatter?.excerpt?.trim() ||
-			"Read the full post for the complete write-up.";
-
-		return {
-			id: entry.slug,
-			entry,
-			title: entry.data.title,
-			url: getPostUrlBySlug(entry.slug),
-			published: entry.data.published,
-			year: entry.data.published.getFullYear(),
-			monthDay: `${(entry.data.published.getMonth() + 1).toString().padStart(2, "0")}-${entry.data.published
-				.getDate()
-				.toString()
-				.padStart(2, "0")}`,
-			publishedLabel: entry.data.published.toISOString().substring(0, 10),
-			description: excerpt.replace(/\s+/g, " ").trim(),
-			image: entry.data.image,
-			pinned: entry.data.pinned === true,
-			tags: entry.data.tags ?? [],
-			words: remarkPluginFrontmatter?.words ?? 0,
-			minutes: remarkPluginFrontmatter?.minutes ?? 0,
-			basePath: path.join("content/posts/", getDir(entry.id)),
-		};
-	}),
-);
-
-const uniqueTags = Array.from(
-	new Set(memoryEntries.flatMap((entry) => entry.tags)),
-);
-const visibleTags = uniqueTags.slice(0, 6);
-const pinnedCount = memoryEntries.filter((entry) => entry.pinned).length;
-const activeYears = new Set(memoryEntries.map((entry) => entry.year)).size;
-const latestUpdate = memoryEntries[0]?.publishedLabel ?? "--";
+const uniqueTags = Array.from(new Set(items.flatMap((entry) => entry.tags)));
+const visibleTags = uniqueTags.slice(0, 8);
+const pinnedCount = items.filter((entry) => entry.pinned).length;
+const activeYears = new Set(items.map((entry) => entry.year)).size;
+const latestUpdate = items[0]?.publishedLabel ?? "--";
 
 const groupedEntries = Array.from(
-	memoryEntries.reduce((groups, entry) => {
+	items.reduce((groups, entry) => {
 		const current = groups.get(entry.year) ?? [];
 		current.push(entry);
 		groups.set(entry.year, current);
 		return groups;
-	}, new Map<number, typeof memoryEntries>()),
-).map(([year, items]) => ({
+	}, new Map<number, MemoryEntry[]>()),
+).map(([year, yearItems]) => ({
 	year,
-	items,
+	items: yearItems,
 }));
 
 const stats = [
-	{ label: "Posts", value: memoryEntries.length.toString() },
+	{ label: usingMemos ? "Memos" : "Posts", value: items.length.toString() },
 	{ label: "Tags", value: uniqueTags.length.toString() },
 	{ label: "Years", value: activeYears.toString() },
 	{ label: "Updated", value: latestUpdate },
 ];
+
+const heroTitle = usingMemos
+	? "Write in Memos, publish as static memory"
+	: "A lighter timeline for posts, tags, and cover art";
+const heroSubtitle = usingMemos
+	? "Public memos are rendered into static HTML during build, so you keep quick capture on mobile while search engines still see real content."
+	: "This page turns long-form writing into smaller moments, so browsing feels closer to scanning notes than opening a directory.";
 ---
 
 <section class="memory-shell card-base">
 	<div class="memory-hero">
 		<div class="memory-copy">
 			<div class="memory-kicker">Memory</div>
-			<h1 class="memory-title">A lighter timeline for posts, tags, and cover art</h1>
-			<p class="memory-subtitle">
-				This page turns long-form writing into smaller moments, so browsing feels closer to scanning notes than opening a directory.
-			</p>
+			<h1 class="memory-title">{heroTitle}</h1>
+			<p class="memory-subtitle">{heroSubtitle}</p>
 			<div class="memory-actions">
+				{usingMemos && memosHomeUrl && (
+					<a class="memory-action-btn" href={memosHomeUrl} target="_blank" rel="noopener noreferrer">
+						<Icon name="fa6-solid:pen-to-square" class="text-[1rem]" />
+						<span>Open Memos</span>
+					</a>
+				)}
 				<a class="memory-action-btn" href={url("/archive/")}>
 					<Icon name="fa6-solid:box-archive" class="text-[1rem]" />
 					<span>Archive</span>
@@ -100,7 +83,7 @@ const stats = [
 		</div>
 	</div>
 
-		<div class="memory-toolbar" data-memory-root>
+	<div class="memory-toolbar" data-memory-root>
 		<div class="memory-toolbar-row">
 			<div class="memory-toolbar-label">
 				<Icon name="fa6-solid:sliders" class="text-[0.9rem]" />
@@ -123,12 +106,12 @@ const stats = [
 			</div>
 		</div>
 		<div class="memory-visible">
-			<span id="memory-visible-count">{memoryEntries.length}</span>
+			<span id="memory-visible-count">{items.length}</span>
 			<span>visible</span>
 		</div>
 	</div>
 
-	{memoryEntries.length > 0 ? (
+	{items.length > 0 ? (
 		<div class="memory-stream">
 			{groupedEntries.map((group) => (
 				<section class="memory-year-group" data-memory-group>
@@ -140,6 +123,7 @@ const stats = [
 					<div class="memory-list">
 						{group.items.map((item) => (
 							<article
+								id={item.id}
 								class="memory-card"
 								data-memory-card
 								data-pinned={item.pinned ? "true" : "false"}
@@ -152,6 +136,7 @@ const stats = [
 
 								<div class="memory-card-body">
 									<div class="memory-badges">
+										<span class="memory-badge memory-badge-source">{item.sourceLabel}</span>
 										{item.pinned && (
 											<span class="memory-badge memory-badge-accent">Pinned</span>
 										)}
@@ -162,32 +147,43 @@ const stats = [
 
 									<div class:list={["memory-card-main", { "has-cover": !!item.image }]}>
 										<div class="memory-card-copy">
-											<a class="memory-card-title" href={item.url}>
+											<a class="memory-card-title" href={item.permalink}>
 												{item.title}
 											</a>
-											<p class="memory-card-excerpt">{item.description}</p>
+
+											{item.contentHtml ? (
+												<div
+													class="memory-rich-content prose prose-sm max-w-none dark:prose-invert"
+													set:html={item.contentHtml}
+												/>
+											) : (
+												<p class="memory-card-excerpt">{item.description}</p>
+											)}
 
 											<div class="memory-card-meta">
 												<span>{item.publishedLabel}</span>
-												<span>{item.words} words</span>
-												<span>{item.minutes} min</span>
+												{item.meta.map((metaItem) => (
+													<span>{metaItem}</span>
+												))}
 											</div>
 
-											<a class="memory-read-link" href={item.url}>
-												<span>Read post</span>
-												<Icon
-													name="fa6-solid:arrow-up-right-from-square"
-													class="text-[0.9rem]"
-												/>
-											</a>
+											{item.linkUrl && item.linkLabel && (
+												<a class="memory-read-link" href={item.linkUrl}>
+													<span>{item.linkLabel}</span>
+													<Icon
+														name="fa6-solid:arrow-up-right-from-square"
+														class="text-[0.9rem]"
+													/>
+												</a>
+											)}
 										</div>
 
 										{item.image && (
-											<a class="memory-cover" href={item.url} aria-label={item.title}>
+											<a class="memory-cover" href={item.permalink} aria-label={item.title}>
 												<ImageWrapper
-													src={item.image}
-													basePath={item.basePath}
-													alt={`Cover image of ${item.title}`}
+													src={item.image.src}
+													basePath={item.image.basePath}
+													alt={item.image.alt}
 													class="memory-cover-image"
 												/>
 											</a>
@@ -205,7 +201,7 @@ const stats = [
 			<Icon name="fa6-solid:sparkles" class="text-[2rem]" />
 			<div class="memory-empty-title">Memory stream is empty</div>
 			<p class="memory-empty-copy">
-				Create your first post, then this page will automatically turn it into a new time slice.
+				Once you publish a post or expose public memos, this page will pick them up automatically.
 			</p>
 		</div>
 	)}
@@ -340,7 +336,7 @@ const stats = [
 
 	.memory-subtitle {
 		margin: 0;
-		max-width: 44rem;
+		max-width: 46rem;
 		font-size: 0.98rem;
 		line-height: 1.8;
 		color: rgb(15 23 42 / 0.66);
@@ -637,6 +633,14 @@ const stats = [
 		background: color-mix(in srgb, var(--primary) 12%, var(--btn-regular-bg));
 	}
 
+	.memory-badge-source {
+		color: rgb(15 23 42 / 0.8);
+	}
+
+	:global(.dark) .memory-badge-source {
+		color: rgb(241 245 249 / 0.86);
+	}
+
 	.memory-card-main {
 		display: grid;
 		gap: 0.95rem;
@@ -646,6 +650,7 @@ const stats = [
 		display: grid;
 		gap: 0.7rem;
 		align-content: start;
+		min-width: 0;
 	}
 
 	.memory-card-title {
@@ -677,6 +682,27 @@ const stats = [
 
 	:global(.dark) .memory-card-excerpt {
 		color: rgb(226 232 240 / 0.72);
+	}
+
+	.memory-rich-content {
+		color: rgb(15 23 42 / 0.82);
+	}
+
+	:global(.dark) .memory-rich-content {
+		color: rgb(226 232 240 / 0.84);
+	}
+
+	.memory-rich-content :global(p:last-child) {
+		margin-bottom: 0;
+	}
+
+	.memory-rich-content :global(pre) {
+		overflow-x: auto;
+		border-radius: 0.85rem;
+	}
+
+	.memory-rich-content :global(img) {
+		border-radius: 0.85rem;
 	}
 
 	.memory-card-meta {
@@ -788,7 +814,7 @@ const stats = [
 
 		.memory-card-main.has-cover {
 			grid-template-columns: minmax(0, 1fr) 13rem;
-			align-items: center;
+			align-items: start;
 		}
 	}
 
