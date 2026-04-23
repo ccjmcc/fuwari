@@ -1,8 +1,16 @@
-name: 构建并发布到page分支
+name: Build and Deploy to page branch
+
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: Trigger reason for the deployment
+        required: false
+        default: manual dispatch
+        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -26,7 +34,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install Dependencies
         run: pnpm install
@@ -41,4 +49,4 @@ jobs:
           publish_dir: ./dist
           publish_branch: page
           cname: www.ccjmcc.xyz
-          commit_message: ${{ github.event.head_commit.message }}
+          commit_message: ${{ github.event.head_commit.message || github.event.inputs.reason || format('Deploy via {0}', github.event_name) }}
