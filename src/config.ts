@@ -97,8 +97,8 @@ export const umamiConfig: UmamiConfig = {
 export const memosConfig: MemosConfig = {
 	// Public memos can be fetched without a token.
 	// If your instance requires auth during build, set MEMOS_ACCESS_TOKEN in env.
-	enable: false,
-	baseUrl: "",
+	enable: true,
+	baseUrl: "https://memos.ccjmcc.xyz",
 	pageSize: 20,
 };
 
