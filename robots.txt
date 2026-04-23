@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.ccjmcc.xyz/sitemap-index.xml
+Host: www.ccjmcc.xyz
