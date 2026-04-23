@@ -11,9 +11,9 @@ import { url } from "@/utils/url-utils";
 
 const posts = await getSortedPosts();
 const postEntries = await mapPostsToMemoryEntries(posts);
-const memoEntries = await fetchMemosAsMemoryEntries();
-const usingMemos = memoEntries.length > 0;
-const memoryEntries = usingMemos ? memoEntries : postEntries;
+const memosFeed = await fetchMemosAsMemoryEntries();
+const usingMemos = memosFeed.hasMemosSource;
+const memoryEntries = usingMemos ? memosFeed.entries : postEntries;
 const description = usingMemos
 	? "Public memos rendered into static HTML for fast browsing and better indexing."
 	: "Turn site posts into a lighter timeline for quick browsing by time and tag.";

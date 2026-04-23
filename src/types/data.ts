@@ -44,3 +44,8 @@ export interface MemoryEntry {
 	linkUrl?: string;
 	image?: MemoryAsset;
 }
+
+export interface MemoryFeed {
+	entries: MemoryEntry[];
+	hasMemosSource: boolean;
+}

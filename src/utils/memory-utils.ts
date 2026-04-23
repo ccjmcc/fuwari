@@ -1,10 +1,11 @@
+import fs from "node:fs/promises";
 import path from "node:path";
 import type { CollectionEntry } from "astro:content";
 import MarkdownIt from "markdown-it";
 import { parse as parseHtml } from "node-html-parser";
 import sanitizeHtml from "sanitize-html";
 import { memosConfig } from "../config";
-import type { MemoryAsset, MemoryEntry } from "../types/data";
+import type { MemoryAsset, MemoryEntry, MemoryFeed } from "../types/data";
 import { getDir, getPostUrlBySlug, url } from "./url-utils";
 
 type MemoAttachment = {
@@ -32,10 +33,21 @@ type ListMemosResponse = {
 	nextPageToken?: string;
 };
 
+type MemoSnapshot = {
+	generatedAt?: string;
+	memos?: MemoRecord[];
+};
+
+type LoadedMemoSnapshot = {
+	exists: boolean;
+	memos: MemoRecord[];
+};
+
 const markdownParser = new MarkdownIt({
 	breaks: true,
 	linkify: true,
 });
+const memoSnapshotPath = path.resolve(process.cwd(), "src/data/memos-snapshot.json");
 
 function normalizeText(input: string) {
 	return input.replace(/\s+/g, " ").trim();
@@ -159,6 +171,83 @@ function toMemoryPermalink(id: string) {
 	return `${url("/memory/")}#${id}`;
 }
 
+async function loadMemoSnapshot(): Promise<LoadedMemoSnapshot> {
+	try {
+		const raw = await fs.readFile(memoSnapshotPath, "utf-8");
+		const payload = JSON.parse(raw) as MemoSnapshot;
+		return {
+			exists: true,
+			memos: Array.isArray(payload.memos) ? payload.memos : [],
+		};
+	} catch (error) {
+		if (
+			typeof error === "object" &&
+			error !== null &&
+			"code" in error &&
+			error.code === "ENOENT"
+		) {
+			return {
+				exists: false,
+				memos: [],
+			};
+		}
+
+		console.error("Failed to load Memos snapshot for /memory/:", error);
+		return {
+			exists: false,
+			memos: [],
+		};
+	}
+}
+
+function mapMemoRecordsToMemoryEntries(memoRecords: MemoRecord[]) {
+	return sortEntries(
+		memoRecords.map((memo, index) => {
+			const publishedAt = new Date(
+				memo.displayTime || memo.createTime || memo.updateTime || Date.now(),
+			);
+			const publishedLabel = formatDate(publishedAt);
+			const contentHtml = sanitizeMemoHtml(memo.content || "");
+			const plainText = htmlToPlainText(contentHtml || "");
+			const title = deriveMemoTitle(plainText, publishedLabel);
+			const idPart = memo.name?.split("/").pop() || `memo-${index + 1}`;
+			const id = `memo-${idPart}`;
+			const image = getMemoImage(memo.attachments, title);
+			const mediaCount = memo.attachments?.filter((attachment) =>
+				Boolean(resolveAttachmentSrc(attachment)),
+			).length;
+			const meta = [];
+
+			if (typeof mediaCount === "number" && mediaCount > 0) {
+				meta.push(`${mediaCount} media`);
+			}
+
+			if ((memo.tags?.length || 0) > 0) {
+				meta.push(`${memo.tags?.length || 0} tags`);
+			}
+
+			return {
+				id,
+				title,
+				permalink: toMemoryPermalink(id),
+				publishedLabel,
+				monthDay: formatMonthDay(publishedAt),
+				year: publishedAt.getFullYear(),
+				description: deriveMemoDescription(
+					normalizeText(memo.snippet || plainText),
+				),
+				contentHtml,
+				pinned: memo.pinned === true,
+				tags: memo.tags || [],
+				meta,
+				source: "memos",
+				sourceLabel: "Memos",
+				image,
+			} satisfies MemoryEntry;
+		}),
+	);
+}
+
 async function fetchMemoPage(pageToken?: string) {
 	const baseUrl = normalizeBaseUrl(memosConfig.baseUrl);
 	if (!baseUrl) {
@@ -191,9 +280,20 @@ async function fetchMemoPage(pageToken?: string) {
 	};
 }
 
-export async function fetchMemosAsMemoryEntries(): Promise<MemoryEntry[]> {
+export async function fetchMemosAsMemoryEntries(): Promise<MemoryFeed> {
 	if (!memosConfig.enable || !memosConfig.baseUrl.trim()) {
-		return [];
+		return {
+			entries: [],
+			hasMemosSource: false,
+		};
+	}
+
+	const snapshot = await loadMemoSnapshot();
+	if (snapshot.exists) {
+		return {
+			entries: mapMemoRecordsToMemoryEntries(snapshot.memos),
+			hasMemosSource: true,
+		};
 	}
 
 	try {
@@ -213,54 +313,16 @@ export async function fetchMemosAsMemoryEntries(): Promise<MemoryEntry[]> {
 			pageToken = nextPageToken;
 		}
 
-		return sortEntries(
-			memoRecords.map((memo, index) => {
-				const publishedAt = new Date(
-					memo.displayTime || memo.createTime || memo.updateTime || Date.now(),
-				);
-				const publishedLabel = formatDate(publishedAt);
-				const contentHtml = sanitizeMemoHtml(memo.content || "");
-				const plainText = htmlToPlainText(contentHtml || "");
-				const title = deriveMemoTitle(plainText, publishedLabel);
-				const idPart = memo.name?.split("/").pop() || `memo-${index + 1}`;
-				const id = `memo-${idPart}`;
-				const image = getMemoImage(memo.attachments, title);
-				const mediaCount = memo.attachments?.filter((attachment) =>
-					Boolean(resolveAttachmentSrc(attachment)),
-				).length;
-				const meta = [];
-
-				if (typeof mediaCount === "number" && mediaCount > 0) {
-					meta.push(`${mediaCount} media`);
-				}
-
-				if ((memo.tags?.length || 0) > 0) {
-					meta.push(`${memo.tags?.length || 0} tags`);
-				}
-
-				return {
-					id,
-					title,
-					permalink: toMemoryPermalink(id),
-					publishedLabel,
-					monthDay: formatMonthDay(publishedAt),
-					year: publishedAt.getFullYear(),
-					description: deriveMemoDescription(
-						normalizeText(memo.snippet || plainText),
-					),
-					contentHtml,
-					pinned: memo.pinned === true,
-					tags: memo.tags || [],
-					meta,
-					source: "memos",
-					sourceLabel: "Memos",
-					image,
-				} satisfies MemoryEntry;
-			}),
-		);
+		return {
+			entries: mapMemoRecordsToMemoryEntries(memoRecords),
+			hasMemosSource: true,
+		};
 	} catch (error) {
 		console.error("Failed to load Memos for /memory/:", error);
-		return [];
+		return {
+			entries: [],
+			hasMemosSource: false,
+		};
 	}
 }
 
