@@ -47,11 +47,11 @@ const imageClass = "w-full h-full object-cover";
 const imageStyle = `object-position: ${position}`;
 ---
 <div id={id} class:list={[className, 'overflow-hidden relative image-wrapper']} style={`--theme-hue: ${siteConfig.themeColor.hue}`}>
-    {isLocal && img && <Image src={img} alt={alt || ""} class={`${imageClass} image-content`} style={imageStyle}/>}
+    {isLocal && img && <Image src={img} alt={alt || ""} class={`${imageClass} image-content`} style={imageStyle} loading="lazy" decoding="async" />}
     {!isLocal && (
         imageFallbackConfig.enable && src.includes(imageFallbackConfig.originalDomain) ? 
-            <img src={isPublic ? url(src) : src} alt={alt || ""} class={`${imageClass} image-content`} style={imageStyle} onerror={`this.onerror=null; this.src='${(isPublic ? url(src) : src).replace(imageFallbackConfig.originalDomain, imageFallbackConfig.fallbackDomain)}';`}/> :
-            <img src={isPublic ? url(src) : src} alt={alt || ""} class={`${imageClass} image-content`} style={imageStyle}/>
+            <img src={isPublic ? url(src) : src} alt={alt || ""} class={`${imageClass} image-content`} style={imageStyle} loading="lazy" decoding="async" onerror={`this.onerror=null; this.src='${(isPublic ? url(src) : src).replace(imageFallbackConfig.originalDomain, imageFallbackConfig.fallbackDomain)}';`}/> :
+            <img src={isPublic ? url(src) : src} alt={alt || ""} class={`${imageClass} image-content`} style={imageStyle} loading="lazy" decoding="async" />
     )}
 </div>
 

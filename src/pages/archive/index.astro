@@ -4,17 +4,20 @@ import { siteConfig } from "@/config";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { url } from "@/utils/url-utils";
 
-const archiveDescription = "Browse all posts in chronological order.";
+const archiveTitle = "归档";
+const archiveDescription = "按时间线浏览 ccjm Blog 的全部技术文章与折腾记录。";
 const archiveUrl = Astro.site
 	? new URL(url("/archive/"), Astro.site).href
 	: url("/archive/");
 const siteHomeUrl = Astro.site ? new URL(url("/"), Astro.site).href : url("/");
 const siteLanguage = siteConfig.lang.replace(/_/g, "-");
-const websiteId = Astro.site ? `${new URL(Astro.site).origin}#website` : undefined;
+const websiteId = Astro.site
+	? `${new URL(Astro.site).origin}#website`
+	: undefined;
 const archiveJsonLd = {
 	"@context": "https://schema.org",
 	"@type": "CollectionPage",
-	name: `Archive - ${siteConfig.title}`,
+	name: `${archiveTitle} - ${siteConfig.title}`,
 	description: archiveDescription,
 	url: archiveUrl,
 	inLanguage: siteLanguage,
@@ -37,14 +40,14 @@ const breadcrumbJsonLd = {
 		{
 			"@type": "ListItem",
 			position: 2,
-			name: "Archive",
+			name: archiveTitle,
 			item: archiveUrl,
 		},
 	],
 };
 ---
 
-<MainGridLayout title="Archive" description={archiveDescription}>
+<MainGridLayout title={archiveTitle} description={archiveDescription}>
 	<script
 		is:inline
 		slot="head"

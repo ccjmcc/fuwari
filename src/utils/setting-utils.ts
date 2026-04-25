@@ -115,7 +115,7 @@ export function setDevServer(server: string): void {
 	localStorage.setItem("dev-server", server);
 }
 
-export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
+export function applyThemeToDocument(theme: LIGHT_DARK_MODE): void {
 	switch (theme) {
 		case LIGHT_MODE:
 			document.documentElement.classList.remove("dark");

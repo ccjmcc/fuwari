@@ -165,11 +165,12 @@ const enableUmamiScript =
 	typeof umamiConfig.websiteId === "string" &&
 	umamiConfig.websiteId.trim().length > 0;
 const rssUrl = new URL(url("/rss.xml"), siteUrl).href;
+const sitemapUrl = new URL(url("/sitemap-index.xml"), siteUrl).href;
 ---
 
 <!DOCTYPE html>
     <html lang={siteLang} class="bg-[var(--page-bg)] transition text-[12px] md:text-[16px] dark"  
-	  data-overlayscrollbars-initialize>  <!-- 手机端适配 -->
+	  data-overlayscrollbars-initialize>
 
 	<head>
 		<!-- Google tag (gtag.js) -->
@@ -196,6 +197,7 @@ const rssUrl = new URL(url("/rss.xml"), siteUrl).href;
 			content="telephone=no,address=no,email=no"
 		>
 		<meta name="theme-color" content={`hsl(${configHue} 70% 45%)`}>
+		<meta name="color-scheme" content="dark light">
 		{siteConfig.keywords && (
 			<meta name="keywords" content={siteConfig.keywords.join(", ")}>
 		)}
@@ -235,6 +237,8 @@ const rssUrl = new URL(url("/rss.xml"), siteUrl).href;
         
         <link rel="canonical" href={canonicalUrl} />
         <link rel="alternate" hrefLang={siteLang} href={canonicalUrl} />
+        <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
+		<link rel="sitemap" type="application/xml" href={sitemapUrl} />
         
 		<script type="application/ld+json" set:html={JSON.stringify(jsonLdEntities)} />
 
@@ -361,7 +365,7 @@ const rssUrl = new URL(url("/rss.xml"), siteUrl).href;
 
 
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={rssUrl}/>
-		<!-- Umami分析（自建） -->
+		<!-- Self-hosted Umami analytics -->
 		{enableUmamiScript && <script defer src={`${umamiConfig.baseUrl}/script.js`} data-website-id={umamiConfig.websiteId} data-swup-ignore-script></script>}
 
 	</head>

@@ -10,7 +10,7 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 		url: "/archive/",
 	},
 	[LinkPreset.Memory]: {
-		name: "Memory",
+		name: "随笔",
 		url: "/memory/",
 	},
 };

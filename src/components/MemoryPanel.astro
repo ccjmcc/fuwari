@@ -10,11 +10,7 @@ interface Props {
 	memosHomeUrl?: string;
 }
 
-const {
-	items,
-	usingMemos = false,
-	memosHomeUrl = "",
-} = Astro.props as Props;
+const { items, usingMemos = false, memosHomeUrl = "" } = Astro.props as Props;
 
 const uniqueTags = Array.from(new Set(items.flatMap((entry) => entry.tags)));
 const visibleTags = uniqueTags.slice(0, 8);
@@ -35,18 +31,18 @@ const groupedEntries = Array.from(
 }));
 
 const stats = [
-	{ label: usingMemos ? "Memos" : "Posts", value: items.length.toString() },
-	{ label: "Tags", value: uniqueTags.length.toString() },
-	{ label: "Years", value: activeYears.toString() },
-	{ label: "Updated", value: latestUpdate },
+	{ label: usingMemos ? "Memos" : "文章", value: items.length.toString() },
+	{ label: "标签", value: uniqueTags.length.toString() },
+	{ label: "年份", value: activeYears.toString() },
+	{ label: "更新", value: latestUpdate },
 ];
 
 const heroTitle = usingMemos
-	? "Write in Memos, publish as static memory"
-	: "A lighter timeline for posts, tags, and cover art";
+	? "随时写 Memos，自动生成静态随笔"
+	: "把文章整理成更轻的时间线";
 const heroSubtitle = usingMemos
-	? "Public memos are rendered into static HTML during build, so you keep quick capture on mobile while search engines still see real content."
-	: "This page turns long-form writing into smaller moments, so browsing feels closer to scanning notes than opening a directory.";
+	? "公开 Memos 会在构建时渲染成真实静态 HTML，保留手机快速记录的体验，同时让搜索引擎看到可索引内容。"
+	: "这里把长文章拆成更容易扫描的时间片段，按时间、标签和封面快速回看。";
 ---
 
 <section class="memory-shell card-base">
@@ -59,12 +55,12 @@ const heroSubtitle = usingMemos
 				{usingMemos && memosHomeUrl && (
 					<a class="memory-action-btn" href={memosHomeUrl} target="_blank" rel="noopener noreferrer">
 						<Icon name="fa6-solid:pen-to-square" class="text-[1rem]" />
-						<span>Open Memos</span>
+						<span>打开 Memos</span>
 					</a>
 				)}
 				<a class="memory-action-btn" href={url("/archive/")}>
 					<Icon name="fa6-solid:box-archive" class="text-[1rem]" />
-					<span>Archive</span>
+					<span>归档</span>
 				</a>
 				<a class="memory-action-btn" href={url("/rss.xml")}>
 					<Icon name="fa6-solid:rss" class="text-[1rem]" />
@@ -87,15 +83,15 @@ const heroSubtitle = usingMemos
 		<div class="memory-toolbar-row">
 			<div class="memory-toolbar-label">
 				<Icon name="fa6-solid:sliders" class="text-[0.9rem]" />
-				<span>Browse</span>
+				<span>筛选</span>
 			</div>
 			<div class="memory-filters">
 				<button class="memory-chip is-active" type="button" data-memory-filter="__all">
-					All
+					全部
 				</button>
 				{pinnedCount > 0 && (
 					<button class="memory-chip" type="button" data-memory-filter="__pinned">
-						Pinned
+						置顶
 					</button>
 				)}
 				{visibleTags.map((tag) => (
@@ -107,7 +103,7 @@ const heroSubtitle = usingMemos
 		</div>
 		<div class="memory-visible">
 			<span id="memory-visible-count">{items.length}</span>
-			<span>visible</span>
+			<span>可见</span>
 		</div>
 	</div>
 
@@ -138,7 +134,7 @@ const heroSubtitle = usingMemos
 									<div class="memory-badges">
 										<span class="memory-badge memory-badge-source">{item.sourceLabel}</span>
 										{item.pinned && (
-											<span class="memory-badge memory-badge-accent">Pinned</span>
+											<span class="memory-badge memory-badge-accent">置顶</span>
 										)}
 										{item.tags.slice(0, 3).map((tag) => (
 											<span class="memory-badge">#{tag}</span>
@@ -199,9 +195,9 @@ const heroSubtitle = usingMemos
 	) : (
 		<div class="memory-empty">
 			<Icon name="fa6-solid:sparkles" class="text-[2rem]" />
-			<div class="memory-empty-title">Memory stream is empty</div>
+			<div class="memory-empty-title">随笔流还是空的</div>
 			<p class="memory-empty-copy">
-				Once you publish a post or expose public memos, this page will pick them up automatically.
+				发布文章或公开 Memos 后，这里会在构建时自动收录。
 			</p>
 		</div>
 	)}

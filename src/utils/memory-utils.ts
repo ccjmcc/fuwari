@@ -47,7 +47,10 @@ const markdownParser = new MarkdownIt({
 	breaks: true,
 	linkify: true,
 });
-const memoSnapshotPath = path.resolve(process.cwd(), "src/data/memos-snapshot.json");
+const memoSnapshotPath = path.resolve(
+	process.cwd(),
+	"src/data/memos-snapshot.json",
+);
 
 function normalizeText(input: string) {
 	return input.replace(/\s+/g, " ").trim();
@@ -91,7 +94,7 @@ function htmlToPlainText(html: string) {
 
 function deriveMemoTitle(text: string, fallbackDate: string) {
 	if (text.length === 0) {
-		return `Memo ${fallbackDate}`;
+		return `随笔 ${fallbackDate}`;
 	}
 
 	return text.length > 64 ? `${text.slice(0, 64).trim()}...` : text;
@@ -99,7 +102,7 @@ function deriveMemoTitle(text: string, fallbackDate: string) {
 
 function deriveMemoDescription(text: string) {
 	if (text.length === 0) {
-		return "A short memo captured from Memos.";
+		return "一条从 Memos 同步的公开随笔。";
 	}
 
 	return text.length > 160 ? `${text.slice(0, 160).trim()}...` : text;
@@ -219,11 +222,11 @@ function mapMemoRecordsToMemoryEntries(memoRecords: MemoRecord[]) {
 			const meta = [];
 
 			if (typeof mediaCount === "number" && mediaCount > 0) {
-				meta.push(`${mediaCount} media`);
+				meta.push(`${mediaCount} 个媒体`);
 			}
 
 			if ((memo.tags?.length || 0) > 0) {
-				meta.push(`${memo.tags?.length || 0} tags`);
+				meta.push(`${memo.tags?.length || 0} 个标签`);
 			}
 
 			return {
@@ -302,7 +305,9 @@ export async function fetchMemosAsMemoryEntries(): Promise<MemoryFeed> {
 		const memoRecords: MemoRecord[] = [];
 
 		while (remaining > 0) {
-			const { memos, nextPageToken } = await fetchMemoPage(pageToken || undefined);
+			const { memos, nextPageToken } = await fetchMemoPage(
+				pageToken || undefined,
+			);
 			memoRecords.push(...memos.slice(0, remaining));
 			remaining -= memos.length;
 
@@ -335,16 +340,16 @@ export async function mapPostsToMemoryEntries(
 			const excerpt =
 				entry.data.description.trim() ||
 				remarkPluginFrontmatter?.excerpt?.trim() ||
-				"Read the full post for the complete write-up.";
+				"阅读完整文章。";
 			const publishedAt = entry.data.published;
 			const meta = [];
 
 			if (typeof remarkPluginFrontmatter?.words === "number") {
-				meta.push(`${remarkPluginFrontmatter.words} words`);
+				meta.push(`${remarkPluginFrontmatter.words} 字`);
 			}
 
 			if (typeof remarkPluginFrontmatter?.minutes === "number") {
-				meta.push(`${remarkPluginFrontmatter.minutes} min`);
+				meta.push(`${remarkPluginFrontmatter.minutes} 分钟`);
 			}
 
 			return {
@@ -359,13 +364,13 @@ export async function mapPostsToMemoryEntries(
 				tags: entry.data.tags ?? [],
 				meta,
 				source: "posts",
-				sourceLabel: "Post",
-				linkLabel: "Read post",
+				sourceLabel: "文章",
+				linkLabel: "阅读文章",
 				linkUrl: getPostUrlBySlug(entry.slug),
 				image: entry.data.image
 					? {
 							src: entry.data.image,
-							alt: `Cover image of ${entry.data.title}`,
+							alt: `文章《${entry.data.title}》封面图`,
 							basePath: path.join("content/posts/", getDir(entry.id)),
 						}
 					: undefined,

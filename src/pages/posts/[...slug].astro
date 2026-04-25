@@ -25,15 +25,14 @@ const { entry } = Astro.props;
 const { Content, headings } = await entry.render();
 
 const { remarkPluginFrontmatter } = await entry.render();
-const seoDescription =
-	(
-		entry.data.description ||
-		remarkPluginFrontmatter.excerpt ||
-		siteConfig.description ||
-		entry.data.title
-	)
-		.replace(/\s+/g, " ")
-		.trim();
+const seoDescription = (
+	entry.data.description ||
+	remarkPluginFrontmatter.excerpt ||
+	siteConfig.description ||
+	entry.data.title
+)
+	.replace(/\s+/g, " ")
+	.trim();
 const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/content/**/*.{jpeg,jpg,png,gif,webp,avif}",
 );
@@ -60,6 +59,17 @@ if (entry.data.image && Astro.site) {
 	}
 }
 
+const resolveAbsoluteUrl = (input?: string) => {
+	if (!Astro.site || !input || input.trim().length === 0) return undefined;
+	if (/^https?:\/\//i.test(input)) return input;
+	if (input.startsWith("//")) return `https:${input}`;
+	if (input.startsWith("/")) return new URL(input, Astro.site).href;
+	return undefined;
+};
+const fallbackArticleImage =
+	resolveAbsoluteUrl(profileConfig.avatar) ||
+	resolveAbsoluteUrl(siteConfig.favicon[0]?.src);
+const articleImage = socialImage || fallbackArticleImage;
 const canonicalUrl = Astro.site
 	? new URL(getPostUrlBySlug(entry.slug), Astro.site).href
 	: getPostUrlBySlug(entry.slug);
@@ -95,7 +105,7 @@ const articleJsonLd = {
 	datePublished: entry.data.published.toISOString(),
 	dateModified: (entry.data.updated || entry.data.published).toISOString(),
 	inLanguage: articleLanguage,
-	image: socialImage ? [socialImage] : undefined,
+	image: articleImage ? [articleImage] : undefined,
 	keywords: entry.data.tags?.length ? entry.data.tags.join(", ") : undefined,
 	articleSection: entry.data.tags?.[0],
 	wordCount:
@@ -212,7 +222,7 @@ const breadcrumbJsonLd = {
             <!-- always show cover as long as it has one -->
 
             {entry.data.image &&
-                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
+                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} alt={`文章《${entry.data.title}》封面图`} class="mb-8 rounded-xl banner-container onload-animation"/>
             }
 
 
@@ -230,11 +240,11 @@ const breadcrumbJsonLd = {
                         <p class="text-black/80 dark:text-white/80 text-sm">如果这篇文章对你有帮助，欢迎继续交流或支持。</p>
                     </div>
                     <div class="flex gap-2">
-                        <a href="/posts/pin/" class="group flex items-center gap-1 px-3 py-1.5 rounded bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)] text-[var(--btn-content)] text-xs font-medium transition-all active:scale-95">
+                        <a href="https://space.bilibili.com/325903362" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-1 px-3 py-1.5 rounded bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)] text-[var(--btn-content)] text-xs font-medium transition-all active:scale-95">
                             <Icon name="material-symbols:contact-mail-outline" class="text-[0.875rem] group-hover:scale-110 transition-transform"></Icon>
                             联系我
                         </a>
-                        <a href="/donate/" class="group flex items-center gap-1 px-3 py-1.5 rounded bg-[var(--primary)] hover:bg-[oklch(0.65_0.16_var(--hue))] active:bg-[oklch(0.60_0.18_var(--hue))] text-white dark:text-black/80 text-xs font-medium transition-all active:scale-95">
+                        <a href="/sponsors/" class="group flex items-center gap-1 px-3 py-1.5 rounded bg-[var(--primary)] hover:bg-[oklch(0.65_0.16_var(--hue))] active:bg-[oklch(0.60_0.18_var(--hue))] text-white dark:text-black/80 text-xs font-medium transition-all active:scale-95">
                             <Icon name="material-symbols:favorite-outline" class="text-[0.875rem] group-hover:scale-110 transition-transform"></Icon>
                             赞助
                         </a>

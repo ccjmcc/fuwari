@@ -20,17 +20,18 @@ try {
 	const seconds = date.getSeconds().toString().padStart(2, "0");
 	buildDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 } catch (_e) {
-	// ignore git metadata failures in non-git build environments
+	// Ignore git metadata failures in non-git build environments.
 }
 ---
 
 <div class="transition border-t border-black/10 dark:border-white/15 my-10 border-dashed mx-4 md:mx-32"></div>
-<div class="card-base w-fit mx-auto rounded-xl mt-4 mb-4">
+<footer class="card-base w-fit mx-auto rounded-xl mt-4 mb-4">
 	<div class="transition text-50 text-sm text-center p-6">
 		&copy; <span id="copyright-year">2024 - {currentYear}</span>
 		<a
 			class="transition link text-[var(--primary)] font-medium"
 			target="_blank"
+			rel="noopener noreferrer"
 			href="https://space.bilibili.com/325903362"
 		>
 			{profileConfig.name}
@@ -39,30 +40,32 @@ try {
 		<a
 			class="transition link text-[var(--primary)] font-medium"
 			target="_blank"
+			rel="license noopener noreferrer"
 			href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
 		>
 			CC BY-NC-SA 4.0
 		</a>
 		许可
 		<br />
-		<a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url("rss.xml")}>RSS</a>
+		<a class="transition link text-[var(--primary)] font-medium" target="_blank" rel="noopener noreferrer" href={url("rss.xml")}>RSS</a>
 		/
-		<a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url("sitemap-index.xml")}>网站地图</a>
+		<a class="transition link text-[var(--primary)] font-medium" target="_blank" rel="noopener noreferrer" href={url("sitemap-index.xml")}>网站地图</a>
 		<br />
 		由
-		<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a>
+		<a class="transition link text-[var(--primary)] font-medium" target="_blank" rel="noopener noreferrer" href="https://astro.build">Astro</a>
 		和
-		<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a>
+		<a class="transition link text-[var(--primary)] font-medium" target="_blank" rel="noopener noreferrer" href="https://github.com/saicaca/fuwari">Fuwari</a>
 		驱动
 		<br />
 		本站代码
-		<a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/ccjmcc/fuwari">已开源</a>
+		<a class="transition link text-[var(--primary)] font-medium" target="_blank" rel="noopener noreferrer" href="https://github.com/ccjmcc/fuwari">已开源</a>
 		<a
 			class="transition link text-black/30 dark:text-white/30 hover:text-[var(--primary)] text-xs ml-1"
 			target="_blank"
+			rel="noopener noreferrer"
 			href={`https://github.com/ccjmcc/fuwari/commit/${commitHash}`}
 		>
 			({commitHash} @ {buildDate})
 		</a>
 	</div>
-</div>
+</footer>

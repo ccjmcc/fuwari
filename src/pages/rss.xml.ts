@@ -15,7 +15,7 @@ const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
 	"/src/content/**/*.{jpeg,jpg,png,gif,webp}", // include posts and assets
 );
 
-export async function GET(context: APIContext) {
+export async function GET(context: APIContext): Promise<Response> {
 	if (!context.site) {
 		throw Error("site not set");
 	}
@@ -77,9 +77,10 @@ export async function GET(context: APIContext) {
 
 	return rss({
 		title: siteConfig.title,
-		description: siteConfig.subtitle || "No description",
+		description:
+			siteConfig.description || siteConfig.subtitle || siteConfig.title,
 		site: context.site,
 		items: feed,
-		customData: `<language>${siteConfig.lang}</language>`,
+		customData: `<language>${siteConfig.lang.replace(/_/g, "-")}</language>`,
 	});
 }

@@ -1,15 +1,16 @@
 import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
-export async function getSortedPosts() {
+export async function getSortedPosts(): Promise<CollectionEntry<"posts">[]> {
 	const allBlogPosts = await getCollection("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 	const sorted = allBlogPosts.sort((a, b) => {
-		// 如果一个是置顶一个不是置顶，置顶的排在前面
+		// Pinned posts stay ahead of regular posts.
 		if (a.data.pinned !== b.data.pinned) {
 			return a.data.pinned ? -1 : 1;
 		}
-		// 都是置顶或都不是置顶，按发布日期时间排序（包含小时分钟秒）
+		// Then sort by the full published timestamp, newest first.
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
 		return dateA > dateB ? -1 : 1;

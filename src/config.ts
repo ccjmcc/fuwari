@@ -15,8 +15,16 @@ export const siteConfig: SiteConfig = {
 	title: "ccjm Blog",
 	subtitle: "技术分享与实践",
 	description:
-		"分享网络技术、Web 开发、服务器运维与日常折腾记录。",
-	keywords: ["技术博客", "Web", "Astro", "服务器", "运维"],
+		"ccjm 的技术博客，记录网络技术、Web 开发、服务器运维、嵌入式开发、自托管服务与日常折腾实践。",
+	keywords: [
+		"技术博客",
+		"Web 开发",
+		"Astro",
+		"服务器运维",
+		"自托管",
+		"嵌入式",
+		"网络技术",
+	],
 	lang: "zh_CN", // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
 	themeColor: {
 		hue: 250,
