@@ -2,10 +2,10 @@
 title: ai编程工具-从google-antigravity到codex的转变
 published: 2026-04-25T06:23:04
 updated: 2026-04-25T06:23:04
-description: 'ai编程工具-从google-antigravity到codex的转变(Agent terminated due to error/error running remote compact task: { "error": { "message": "your input exceeds the context window of this model. please adjust your input and try again.", "type": "invalid_request_error", "param": "input", "code": "context_length_exceeded" } }) 解决google antigravity总是要确认命令'
+description: '记录从 Google Antigravity、Trae 到 Codex 的使用体验，以及 Google Antigravity 总要确认命令的解决方法。'
 image: ''
 tags: [AI]
-draft: true
+draft: false
 lang: 'zh_CN'
 ---
 
@@ -44,4 +44,3 @@ openai出品 大厂保证 free账号也能使用 额度小 但是不像别的工
 最近超低价的9元plus账号(还要什么自行车)  加上新出的GPT-5.5 除了昂贵的claude code 看起来是目前的最优解了
 
 就是有时候上下文爆炸会报错 得重开对话 压缩上下文有点小问题
-
