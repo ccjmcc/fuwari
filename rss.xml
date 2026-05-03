@@ -1,4 +1,75 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ccjm Blog</title><description>ccjm 的技术博客，记录网络技术、Web 开发、服务器运维、嵌入式开发、自托管服务与日常折腾实践。</description><link>https://www.ccjmcc.xyz/</link><language>zh-CN</language><item><title>ai编程工具-从google-antigravity到codex的转变</title><link>https://www.ccjmcc.xyz/posts/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7-%E4%BB%8Egoogle-antigravity%E5%88%B0codex%E7%9A%84%E8%BD%AC%E5%8F%98/</link><guid isPermaLink="true">https://www.ccjmcc.xyz/posts/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7-%E4%BB%8Egoogle-antigravity%E5%88%B0codex%E7%9A%84%E8%BD%AC%E5%8F%98/</guid><description>记录从 Google Antigravity、Trae 到 Codex 的使用体验，以及 Google Antigravity 总要确认命令的解决方法。</description><pubDate>Sat, 25 Apr 2026 06:23:04 GMT</pubDate><content:encoded>&lt;h2&gt;前言&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ccjm Blog</title><description>ccjm 的技术博客，记录网络技术、Web 开发、服务器运维、嵌入式开发、自托管服务与日常折腾实践。</description><link>https://www.ccjmcc.xyz/</link><language>zh-CN</language><item><title>不用等快递！用 3D 打印机直接搞定 PCB 贴片钢网</title><link>https://www.ccjmcc.xyz/posts/3d-printed-pcb-stencil-easytool/</link><guid isPermaLink="true">https://www.ccjmcc.xyz/posts/3d-printed-pcb-stencil-easytool/</guid><description>推荐一款超级方便的在线工具，上传 Gerber 文件直接生成可 3D 打印的 PCB 贴片钢网模型，小批量验证和开源硬件玩家必备。</description><pubDate>Fri, 01 May 2026 12:00:00 GMT</pubDate><content:encoded>&lt;p&gt;昨天在折腾一块新画好的板子，元器件都到了，就差贴片。&lt;/p&gt;
+&lt;p&gt;以前遇到这种情况，我都会在嘉立创或者淘宝上顺手打一张钢网，其实也不贵，几十块钱的事。但问题是——&lt;strong&gt;得等快递啊！&lt;/strong&gt; 作为一个急性子，板子在手里不能马上焊，简直百爪挠心。&lt;/p&gt;
+&lt;p&gt;我看着角落里那台吃灰的拓竹 3D 打印机，突然想到：现在的 3D 打印精度都这么高了，为什么不能直接打印一张钢网呢？&lt;/p&gt;
+&lt;p&gt;网上一搜，还真让我发现了一个神器：&lt;strong&gt;&lt;a href=&quot;https://www.easytool.me/tools/gerber-stencil-generator/&quot;&gt;EasyTool Gerber 钢网生成器&lt;/a&gt;&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2&gt;这个工具能干嘛？&lt;/h2&gt;
+&lt;p&gt;简单来说，这是一个纯在线的转换工具，特别适合像我这种搞小批量验证、或者做开源硬件原型的玩家。&lt;/p&gt;
+&lt;p&gt;它的核心亮点就两个字：&lt;strong&gt;快捷&lt;/strong&gt;。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;直接上传 Gerber&lt;/strong&gt;：你在 KiCad、EasyEDA 或者 Altium 里导出生产文件，把里面那一层 &lt;code&gt;Paste Layer&lt;/code&gt;（焊膏层）单独拿出来，或者直接传 zip 包，它能自动识别。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;秒出 3D 模型&lt;/strong&gt;：不需要你在建模软件里一点点扣孔，它直接给你生成可 3D 打印的 STL 或 3MF 文件！&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;参数超傻瓜&lt;/strong&gt;：可以直接在网页上调钢网厚度（比如我就设个 0.12mm），甚至还能加边框和 PCB 定位槽，这样刷锡膏的时候钢网就不会乱跑了。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;实测打印效果&lt;/h2&gt;
+&lt;p&gt;我马上去 &lt;a href=&quot;https://www.easytool.me/tools/gerber-stencil-generator/&quot;&gt;EasyTool&lt;/a&gt; 上传了我的板子，下载了 STL 丢进切片软件。&lt;/p&gt;
+&lt;p&gt;这里分享几个打印小经验（FDM 打印机）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;层高&lt;/strong&gt;：因为钢网很薄，首层高度和层高最好设置得精细一点，比如 0.08mm 或者 0.12mm 这样能整除你的钢网总厚度。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;底面&lt;/strong&gt;：不需要什么支撑，直接平躺打印。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;耗材&lt;/strong&gt;：普通的 PLA 就行，反正刷个锡膏也没有高温要求，PLA 够硬，刮刀刮过去的时候边缘不容易变形。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;打印出来一看，0603 的阻容焊盘和一些常规芯片的引脚孔，开得清清楚楚！把板子卡进去，抹上锡膏一刮，揭开一看——完美！锡膏饱满均匀，连短路的风险都变小了。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;如果你也是个喜欢 DIY 硬件的创客，或者公司刚打样回来的板子急着验证，真的强烈建议把 &lt;a href=&quot;https://www.easytool.me/tools/gerber-stencil-generator/&quot;&gt;EasyTool 钢网生成器&lt;/a&gt; 塞进你的浏览器收藏夹。&lt;/p&gt;
+&lt;p&gt;不用等两三天的快递，不用额外花钱。画完板子、切片、打印，半个小时后你就能开始快乐地刷锡膏了。这效率，真香！&lt;/p&gt;
+</content:encoded></item><item><title>突发！CVE-2026-31431 Linux 本地提权漏洞排查与修复指南</title><link>https://www.ccjmcc.xyz/posts/cve-2026-31431-linux-root-fix/</link><guid isPermaLink="true">https://www.ccjmcc.xyz/posts/cve-2026-31431-linux-root-fix/</guid><description>详解 2026 年最新的 Copy Fail (CVE-2026-31431) Linux 内核本地提权漏洞，整理影响范围及服务器修复措施，告别恐慌，理性应对。</description><pubDate>Fri, 01 May 2026 12:00:00 GMT</pubDate><content:encoded>&lt;p&gt;这几天安全圈又热闹了，一个代号为 &quot;Copy Fail&quot; 的 Linux 内核漏洞被公开，编号 &lt;strong&gt;CVE-2026-31431&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;我看群里大家传得沸沸扬扬，有的甚至以为又是一个类似 Log4j 那种远程一键打穿的核弹漏洞。别慌，先喝口水。我仔细看了一下 Tenable 的通报，&lt;strong&gt;这是一个本地提权漏洞（Local Privilege Escalation）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;也就是说，黑客得先想办法在你的机器上拿到一个普通用户的执行权限，然后才能利用这个漏洞把权限提升到 &lt;code&gt;root&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;那么这个漏洞到底影响谁？我们现在该怎么处理？我简单给大家梳理一下。&lt;/p&gt;
+&lt;h2&gt;谁最需要紧张？&lt;/h2&gt;
+&lt;p&gt;虽然不是远程漏洞，但也别掉以轻心。如果你的服务器属于以下几种情况，&lt;strong&gt;建议赶紧安排升级&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;多用户共享服务器&lt;/strong&gt;：给很多人开了普通子账号的跳板机、开发机。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;容器集群宿主机（K8s 等）&lt;/strong&gt;：如果有容器逃逸风险，宿主机的内核漏洞会变成超级跳板。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;跑 CI/CD 任务的 Runner&lt;/strong&gt;：经常运行各种第三方不可信脚本的节点。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;在线判题系统（OJ）、沙盒环境&lt;/strong&gt;：本身就允许执行未知代码的地方。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;反之，如果你的服务器只有你一个人用，没对外开放什么奇怪的服务，密码也足够强，那被利用的概率其实很低，可以等晚上业务低峰期慢慢修。&lt;/p&gt;
+&lt;h2&gt;怎么查自己的机器有没有中招？&lt;/h2&gt;
+&lt;p&gt;影响范围据说是 Linux kernel 4.14 及之后的版本（这基本上涵盖了目前绝大多数在跑的系统了）。&lt;/p&gt;
+&lt;p&gt;第一步，先看看自己的内核版本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uname -r
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;注意：如果你用的是 Docker，在容器里查看到的是宿主机的内核。要修也是修宿主机，别在容器里折腾。&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;赶紧修复：正确姿势&lt;/h2&gt;
+&lt;p&gt;别去网上随便乱搜什么“一键修复脚本”，小心被人二次投毒。老老实实用官方包管理器升级内核就行了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ubuntu / Debian 系：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt update
+sudo apt list --upgradable | grep -i linux
+# 直接升级系统内核
+sudo apt upgrade
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;CentOS / RHEL / Rocky 系：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo dnf updateinfo list security
+sudo dnf update kernel
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;⚠️ 最重要的一步：重启！&lt;/strong&gt;
+内核升级不像普通软件，必须重启服务器才会加载新内核。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo reboot
+# 重启完再确认一下版本是不是变了
+uname -r
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;临时缓解方案&lt;/h2&gt;
+&lt;p&gt;如果你这是一台核心业务服务器，根本没办法随便重启，怎么办？
+目前看，这个漏洞主要跟内核的 &lt;code&gt;algif_aead&lt;/code&gt; 接口有关。作为临时方案，你可以尝试禁用这个模块的加载（前提是你的业务没用到它，一定要先测试！）。&lt;/p&gt;
+&lt;p&gt;你可以先查一下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;lsmod | grep algif
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果有输出，说明已经加载了。如果没有，你可以通过配置黑名单来阻止它加载，熬过这段时间再找机会彻底升级内核。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;安全问题年年有，保持平常心。
+顺手提醒一句，除了修这个 CVE-2026-31431，平时也要注意&lt;strong&gt;限制低权限账号&lt;/strong&gt;、&lt;strong&gt;废弃的测试账号及时删&lt;/strong&gt;，这才是防范本地提权最管用的笨办法。&lt;/p&gt;
+</content:encoded></item><item><title>ai编程工具-从google-antigravity到codex的转变</title><link>https://www.ccjmcc.xyz/posts/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7-%E4%BB%8Egoogle-antigravity%E5%88%B0codex%E7%9A%84%E8%BD%AC%E5%8F%98/</link><guid isPermaLink="true">https://www.ccjmcc.xyz/posts/ai%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7-%E4%BB%8Egoogle-antigravity%E5%88%B0codex%E7%9A%84%E8%BD%AC%E5%8F%98/</guid><description>记录从 Google Antigravity、Trae 到 Codex 的使用体验，以及 Google Antigravity 总要确认命令的解决方法。</description><pubDate>Sat, 25 Apr 2026 06:23:04 GMT</pubDate><content:encoded>&lt;h2&gt;前言&lt;/h2&gt;
 &lt;p&gt;体验了市面上的ai变成工具 从cursor / google antigravity到codex / trae 记一下遇到的坑和解决方案&lt;/p&gt;
 &lt;h2&gt;正文&lt;/h2&gt;
 &lt;h3&gt;Google Antigravity&lt;/h3&gt;
