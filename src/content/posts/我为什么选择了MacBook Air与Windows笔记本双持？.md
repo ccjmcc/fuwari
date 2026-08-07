@@ -5,7 +5,7 @@ updated: 2026-08-06T04:39:49
 description: '在拥有windows笔记本许久后，我选择了windows笔记本与MacBook Air双持'
 image: ''
 tags: []
-draft: true
+draft: false
 lang: 'zh_CN'
 ---
 
