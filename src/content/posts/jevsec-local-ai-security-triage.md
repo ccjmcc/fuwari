@@ -3,7 +3,7 @@ title: 'JevSec：我为什么想做一个“看行为而不是只看单次请求
 published: 2026-10-02T18:00:00
 updated: 2026-10-02T18:00:00
 description: 'JevSec 是一个本地运行的 Web 行为安全复核引擎：它不替代 WAF，而是把多个请求放到同一个行为窗口里，结合规则与 Qwen3-4B 做 shadow mode 安全判断。'
-image: ''
+image: '../assets/images/jevsec-benchmark.svg'
 tags: [网络安全, AI, Qwen3, JevSec, 开源]
 draft: false
 lang: 'zh_CN'
@@ -12,6 +12,8 @@ lang: 'zh_CN'
 最近我一直在做一个新的开源项目：**JevSec**。
 
 项目地址：[github.com/ccjmcc/jevsec](https://github.com/ccjmcc/jevsec)
+
+![JevSec benchmark](../assets/images/jevsec-benchmark.svg)
 
 它不是一个“AI WAF”，也不准备替代传统 WAF。更准确地说，JevSec 想解决的是另外一层问题：
 
