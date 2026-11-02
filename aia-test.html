@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Chrome 公网 AIA / LNA 隔离测试 - ccjm Lab</title>
+  <style>
+    body {max-width: 820px; margin: 48px auto; padding: 0 20px; font: 16px/1.75 system-ui, sans-serif; background: #101827; color: #e7edf5;}
+    article {background: #1a2535; border: 1px solid #34445e; padding: 24px; border-radius: 12px;}
+    small, .muted {color: #a5b4c5;}
+    button {margin: 8px 8px 8px 0; padding: 10px 14px; border: 1px solid #617895; border-radius: 8px; background: #263a55; color: white; font: inherit; cursor: pointer;}
+    button:disabled {opacity: .55; cursor: wait;}
+    pre {white-space: pre-wrap; overflow-wrap: anywhere; background: #0b1220; padding: 12px; border-radius: 8px; min-height: 80px;}
+    code {color: #b5d5ff;}
+  </style>
+</head>
+<body>
+<article>
+  <small>ccjm Lab / isolated browser security test</small>
+  <h1>Chrome 公网 AIA / LNA 测试</h1>
+  <p>本页只在你按下按钮后运行测试。仅在自己的测试 Mac 上使用，并先启动本机接收器 <code>127.0.0.1:8080</code>。接收器只记录随机 nonce 和请求头，不访问或读取其他本机服务。</p>
+  <p>测试 HTTPS 资源由 47.102.47.182:18443 提供一张专用、不受信任的测试证书。浏览器应拒绝该资源；本页不会要求你绕过证书警告或安装证书。</p>
+  <h2>步骤 1：普通网页请求对照</h2>
+  <p>这会尝试从当前公网网页对 loopback 接收器发一个无副作用 GET。记录 Chrome 是否提示/阻止，以及本机接收器有没有收到 <code>/direct</code>。</p>
+  <button id="direct">运行普通请求对照</button>
+  <h2>步骤 2：浏览器 AIA 请求</h2>
+  <p>先在普通请求对照中拒绝 Chrome 的本地网络权限（如果出现提示），再启动 AIA 测试。浏览器将加载不受信测试证书，预期 HTTPS 内容失败；检查接收器是否仍收到证书 AIA 请求。</p>
+  <button id="aia">运行一次 AIA 测试</button>
+  <h2>页面记录</h2>
+  <pre id="status">待运行。页面加载本身不会请求公网测试端点或本机接收器。</pre>
+  <p class="muted">结果解释：若普通 GET 被拒绝而 AIA GET 到达，支持“Chrome 的 AIA 获取路径绕过了该浏览器权限限制”；若两者都被拒绝，则当前 Chrome 配置未复现。无论结果如何，这个实验只验证受控 GET，不触发真实敏感操作。</p>
+</article>
+<script>
+  const output = document.getElementById("status");
+  const directButton = document.getElementById("direct");
+  const aiaButton = document.getElementById("aia");
+  const record = (line) => { output.textContent += `\n${new Date().toISOString()} ${line}`; };
+  directButton.addEventListener("click", async () => {
+    directButton.disabled = true;
+    const nonce = crypto.randomUUID();
+    record(`普通请求开始，nonce=${nonce}`);
+    try {
+      await fetch(`http://127.0.0.1:8080/direct?nonce=${nonce}`, {mode: "no-cors", cache: "no-store"});
+      record("fetch 已完成（opaque response）；请核对本机接收器记录及浏览器权限提示。");
+    } catch (error) {
+      record(`fetch 被拒绝：${error.name}: ${error.message}`);
+    } finally {
+      directButton.disabled = false;
+    }
+  });
+  aiaButton.addEventListener("click", () => {
+    aiaButton.disabled = true;
+    const nonce = crypto.randomUUID();
+    record(`AIA HTTPS 子资源开始，nonce=${nonce}；证书错误是预期结果。`);
+    const image = new Image();
+    image.onload = () => record("意外：HTTPS 测试资源加载成功；请停止并检查证书配置。");
+    image.onerror = () => record("HTTPS 子资源加载失败（预期）；请核对接收器是否收到 AIA GET。");
+    image.src = `https://47.102.47.182:18443/trigger?run=${nonce}`;
+    setTimeout(() => { aiaButton.disabled = false; }, 5000);
+  });
+</script>
+</body>
+</html>
